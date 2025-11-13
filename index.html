@@ -6,37 +6,86 @@
   <title>Miyagi X Pulse | Quantum Blockchain Network</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&display=swap');
-    body {
+    * {
       margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+
+    body {
       font-family: 'Orbitron', sans-serif;
       background: radial-gradient(circle at 50% 20%, #001833, #000010);
       color: #00eaff;
-      text-align: center;
       line-height: 1.6;
       overflow-x: hidden;
     }
+
+    /* NAVBAR */
     header {
-      padding: 80px 20px 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(0, 10, 30, 0.8);
+      padding: 15px 50px;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 100;
+      box-shadow: 0 0 20px rgba(0, 234, 255, 0.3);
+      backdrop-filter: blur(8px);
     }
+
+    .logo {
+      font-size: 1.6em;
+      font-weight: 700;
+      color: #00eaff;
+      text-decoration: none;
+      text-shadow: 0 0 10px #00eaff;
+    }
+
+    nav {
+      display: flex;
+      gap: 35px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #bff9ff;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+
+    nav a:hover {
+      color: #00eaff;
+      text-shadow: 0 0 10px #00eaff;
+    }
+
+    /* HERO / INTRO SECTION */
+    .hero {
+      text-align: center;
+      padding: 140px 20px 80px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
     h1 {
       font-size: 3em;
       text-shadow: 0 0 20px #00eaff;
       margin-bottom: 10px;
       animation: pulse 3s infinite;
     }
-    h2 { 
-      color: #66f7ff; 
-      margin-top: 0; 
+
+    h2 {
+      color: #66f7ff;
+      margin-top: 0;
     }
-    section {
-      max-width: 900px;
-      margin: 60px auto;
-      padding: 0 20px;
-    }
+
     p {
       font-size: 1.1em;
       color: #bff9ff;
     }
+
     .button {
       display: inline-block;
       margin: 25px 10px 0;
@@ -48,21 +97,20 @@
       font-weight: bold;
       transition: all 0.3s;
     }
+
     .button:hover {
       background: #0ff;
       box-shadow: 0 0 20px #00eaff;
       transform: scale(1.05);
     }
-    footer {
-      margin-top: 100px;
-      font-size: 0.8em;
-      opacity: 0.7;
-      padding-bottom: 40px;
+
+    /* CONTENT SECTIONS */
+    section {
+      max-width: 900px;
+      margin: 80px auto;
+      padding: 0 20px;
     }
-    @keyframes pulse {
-      0%, 100% { text-shadow: 0 0 20px #00eaff; }
-      50% { text-shadow: 0 0 5px #00eaff; }
-    }
+
     .glow-line {
       width: 100%;
       height: 2px;
@@ -70,16 +118,57 @@
       box-shadow: 0 0 15px #00eaff;
       animation: move 4s linear infinite;
     }
+
+    footer {
+      margin-top: 100px;
+      font-size: 0.8em;
+      opacity: 0.7;
+      padding-bottom: 40px;
+      text-align: center;
+    }
+
+    @keyframes pulse {
+      0%, 100% { text-shadow: 0 0 20px #00eaff; }
+      50% { text-shadow: 0 0 5px #00eaff; }
+    }
+
     @keyframes move {
       0% { transform: translateX(-100%); }
       100% { transform: translateX(100%); }
     }
+
+    @media (max-width: 768px) {
+      nav {
+        gap: 15px;
+      }
+
+      h1 {
+        font-size: 2.3em;
+      }
+
+      section {
+        margin: 60px auto;
+      }
+    }
   </style>
 </head>
 <body>
+
+  <!-- FIXED NAVBAR -->
   <header>
-    <h1>Miyagi X Pulse</h1>
-    <h2>Quantum Blockchain for the Next Digital Era</h2>
+    <a href="#" class="logo">Miyagi X Pulse</a>
+    <nav>
+      <a href="#vision">Vision</a>
+      <a href="#technology">Technology</a>
+      <a href="#phase">Phase</a>
+      <a href="#leadership">Leadership</a>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <div class="hero">
+    <h1>Quantum Blockchain for the Next Digital Era</h1>
+    <h2>Built for the Pulse Age</h2>
     <div class="glow-line"></div>
     <p>
       A new frontier of connectivity built by <strong>Kenjiro Akihito Miyagi</strong> — 
@@ -88,9 +177,10 @@
     </p>
     <a href="whitepaper.html" class="button">Read Whitepaper</a>
     <a href="https://x.com/miyagixmix" class="button">Join Community</a>
-  </header>
+  </div>
 
-  <section>
+  <!-- SECTIONS -->
+  <section id="vision">
     <h2>Our Vision</h2>
     <p>
       The Miyagi X Pulse project is built upon the idea that technology should breathe — 
@@ -105,7 +195,7 @@
     </p>
   </section>
 
-  <section>
+  <section id="technology">
     <h2>Prime Mobile Pulse Node Technology</h2>
     <p>
       The Prime Mobile Pulse Node (PMPN) is our signature innovation.  
@@ -119,7 +209,7 @@
     </p>
   </section>
 
-  <section>
+  <section id="phase">
     <h2>Current Phase — Pulse Genesis Test Network</h2>
     <p>
       We are now in the <strong>Genesis Testing Phase</strong> — activating 
@@ -135,7 +225,7 @@
     <a href="https://docs.google.com/forms/d/e/1FAIpQLSfotSTNEhPle1lA9V0iKvg2tbqHBAyW4rWzfWbEmpya7Hagxw/viewform?usp=sharing&ouid=104150743439874504554" class="button">Apply as Tester</a>
   </section>
 
-  <section>
+  <section id="leadership">
     <h2>Leadership</h2>
     <p>
       <strong>Kenjiro Akihito Miyagi</strong> — visionary technologist, designer, 
@@ -150,5 +240,6 @@
     <div class="glow-line"></div>
     © 2025 Miyagi X Pulse | $MIX Quantum Blockchain Network | Built for the Pulse Age
   </footer>
+
 </body>
 </html>
