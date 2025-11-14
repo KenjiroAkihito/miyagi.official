@@ -15,13 +15,13 @@
       scroll-behavior: smooth;
     }
 
-    /* 🔥 ONLY THIS PART WAS ADDED — nothing else touched */
     body {
       font-family: 'Inter', sans-serif;
-      background-image: url("assets/webbackground.jpg");
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
+      background:
+        linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.75)),
+        url("assets/background.jpg") no-repeat center top fixed;
+      background-size: auto 100vh;  /* <<< OPTION C APPLIED */
+      background-color: #000;       /* fills any space */
       color: #e3e7eb;
       line-height: 1.6;
     }
@@ -155,6 +155,7 @@
     }
   </style>
 </head>
+
 <body>
 
   <header>
