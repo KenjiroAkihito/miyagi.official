@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Miyagi X Pulse Whitepaper v1.3</title>
+  <meta name="description" content="Miyagi X Pulse ($MIX) Whitepaper – Mobile-first blockchain with Proof of Pulse & Participation. Tokenomics, consensus, scalability, governance, and security.">
+  <meta name="keywords" content="Miyagi X Pulse, MIX, blockchain, PoPP, mobile mining, decentralized, tokenomics, crypto">
+  <meta name="robots" content="index, follow">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #010326;
+      color: #E0E0E0;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      scroll-behavior: smooth;
+    }
+    a {
+      color: #00FFFF;
+      text-decoration: none;
+    }
+    header {
+      background: linear-gradient(to right, #010326, #021040, #010326);
+      padding: 20px;
+      text-align: center;
+      border-bottom: 1px solid #00FFFF33;
+    }
+    header h1 {
+      color: #00FFFF;
+      margin: 0;
+    }
+    nav.toc {
+      max-width: 900px;
+      margin: 20px auto;
+      padding: 0 20px;
+      background-color: #010326cc;
+      border-radius: 10px;
+      padding: 15px;
+    }
+    nav.toc ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    nav.toc li {
+      margin: 8px 0;
+    }
+    nav.main-nav {
+      text-align: center;
+      margin: 20px 0;
+    }
+    nav.main-nav a {
+      display: inline-block;
+      background-color: #00FFFF33;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+    section {
+      max-width: 900px;
+      margin: 20px auto;
+      padding: 0 20px;
+    }
+    h2 {
+      color: #00FFFF;
+      border-bottom: 1px solid #00FFFF33;
+      padding-bottom: 5px;
+      margin-top: 40px;
+    }
+    p {
+      margin-bottom: 16px;
+      text-align: justify;
+    }
+    strong {
+      color: #FFFFFF;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Miyagi X Pulse ($MIX) Whitepaper v1.3</h1>
+</header>
+
+<nav class="main-nav">
+  <a href="index.html">← Back to Home</a>
+</nav>
+
+<nav class="toc">
+  <h2>Table of Contents</h2>
+  <ul>
+    <li><a href="#executive-summary">1. Executive Summary</a></li>
+    <li><a href="#design-goals">2. Design Goals & Threat Model</a></li>
+    <li><a href="#architecture">3. Pulse Grid Architecture</a></li>
+    <li><a href="#consensus">4. Proof of Pulse & Participation (PoPP)</a></li>
+    <li><a href="#data-model">5. Pulse & Block Data Model</a></li>
+    <li><a href="#emission">6. Emission & Mining Model</a></li>
+    <li><a href="#rewards">7. Reward Accounting & Distribution</a></li>
+    <li><a href="#scalability">8. Scalability & Capacity</a></li>
+    <li><a href="#economics">9. Node Economics & Staking</a></li>
+    <li><a href="#tokenomics">10. Tokenomics & Vesting</a></li>
+    <li><a href="#security">11. Security & Quantum Strategy</a></li>
+    <li><a href="#recovery">12. Self-Recovery & Governance</a></li>
+    <li><a href="#cost">13. Operational Cost</a></li>
+    <li><a href="#api">14. Developer Appendix & API</a></li>
+    <li><a href="#launch">15. Launch Plan & Milestones</a></li>
+    <li><a href="#appendices">16. Appendices & Glossary</a></li>
+  </ul>
+</nav>
+
+<section id="executive-summary">
+  <h2>1. Executive Summary</h2>
+  <p>Miyagi X Pulse ($MIX) is a next-generation Layer-1 blockchain protocol designed for mobile-first participation. It leverages a novel consensus algorithm called <strong>Proof of Pulse & Participation (PoPP)</strong>, allowing any mobile device to contribute verified pulses — cryptographic proofs generated hourly — to secure the network.</p>
+  <p>$MIX serves as the utility and governance token across the ecosystem, powering Mobile Pulse mining, dApps, staking, and DAO governance. The protocol aims to support billions of participants while ensuring decentralization, security, and energy-efficient operation.</p>
+</section>
+
+<section id="design-goals">
+  <h2>2. Design Goals & Threat Model</h2>
+  <p>Miyagi X Pulse is built on five principles: inclusivity, auditability, sustainability, quantum-readiness, and measurable fairness. Devices ranging from smartphones to server-grade nodes can participate without excessive energy or bandwidth usage.</p>
+  <p>The threat model addresses Sybil attacks, replay and timestamp forgery, collusion among regional validators, and long-term quantum decryption risks. Mitigations include attestation proofs, probabilistic sampling, post-quantum cryptography, and dynamic slashing.</p>
+</section>
+
+<section id="architecture">
+  <h2>3. Pulse Grid Architecture</h2>
+  <p>The Pulse Grid organizes the network into four tiers: Linked Nodes (mobile devices), Leader Nodes (regional aggregators), Cluster Nodes (regional validators), and Core Nodes (global consensus authorities). Pulses emitted hourly by devices are aggregated into Micro-Blocks, validated at the cluster level, and finalized globally into Pulse Blocks.</p>
+  <p>Communication follows LN → LD → CL → CORE. Each transition compresses data via Merkle roots and statistical summaries, allowing near-linear scalability across millions of nodes. This architecture supports the ecosystem pillars: Pulsera, Aegis Pulse, Syncra, VibraCore, Auralith, AetherID, and Nexus.</p>
+</section>
+
+<section id="consensus">
+  <h2>4. Proof of Pulse & Participation (PoPP)</h2>
+  <p>PoPP operates in hourly epochs. Each regional Cluster Node validates pulses, aggregates them into Merkle roots, and submits proofs to Core Validators. Pulse Blocks are finalized when at least two-thirds of Core Validators sign the global state root.</p>
+  <p>Fraud detection uses probabilistic sampling, ensuring 99.9% detection probability with minimal verification overhead.</p>
+</section>
+
+<section id="data-model">
+  <h2>5. Pulse & Block Data Model</h2>
+  <p>Each Pulse contains user ID, device hash, epoch timestamp, and regional identifiers. Micro-Blocks aggregate regional Merkle roots; Pulse Blocks unify them into a global state. This ensures deterministic replay, minimal duplication, and auditability.</p>
+</section>
+
+<section id="emission">
+  <h2>6. Emission & Mining Model</h2>
+  <p>$MIX has a total supply of <strong>1 billion</strong> tokens. The primary distribution is emission-based: Mobile Pulse Nodes earn 60% of all tokens, with staking and validator rewards at 20%, developers at 10%, founders at 7%, and marketing at 3%. No public sale exists; all tokens are earned through network contribution.</p>
+  <p>Emission rates adjust dynamically according to verified pulse counts to maintain network equilibrium and predictable token supply.</p>
+</section>
+
+<section id="rewards">
+  <h2>7. Reward Accounting & Distribution Logic</h2>
+  <p>Epoch rewards are calculated as Rₚ,ₑ = Pₑ / Nᵥ,ₑ, where Pₑ is the epoch emission pool and Nᵥ,ₑ is the total valid pulses. Rewards propagate deterministically: referral bonuses (10%), cluster leader bonuses (1%), and all transactions are anchored with Merkle proofs for auditability.</p>
+</section>
+
+<section id="scalability">
+  <h2>8. Scalability & Capacity Planning</h2>
+  <p>Each million-node region generates ~6.6 GB of pulse data per hour, compressed to under 90 MB. Merkle tree leaves use 32 bytes, minimizing memory overhead. Sharded cluster architecture allows throughput exceeding 100,000 TPS-equivalent.</p>
+</section>
+
+<section id="economics">
+  <h2>9. Node Economics & Staking Incentives</h2>
+  <p>Validator profitability: Profit = Rₙₒdₑ × MIX price − operational costs. Dynamic stake and emission adjustments maintain decentralization and prevent concentration. Example: 10,000 MIX/month × $0.10 = $1,000 revenue vs $800 cost = positive margin.</p>
+</section>
+
+<section id="tokenomics">
+  <h2>10. Tokenomics & Vesting</h2>
+  <p>Founder allocation: 7% (70M MIX) vests over 18 months with a 3-month cliff.<br>
+  Developer allocation: 10% (100M MIX) vests over 24 months with a 3-month cliff.<br>
+  Mobile Pulse Node Rewards: 60% (600M MIX).<br>
+  Staking & Validator Rewards: 20% (200M MIX).<br>
+  Marketing: 3% (30M MIX).<br>
+  Governance treasury (Auralith DAO): dynamic 1–2% funded via emission.<br>
+  All tokens are earned through network contribution; no idle reserves or public sales exist.</p>
+</section>
+
+<section id="security">
+  <h2>11. Security & Quantum Strategy</h2>
+  <p>Hybrid cryptography (ECDSA + CRYSTALS-Dilithium) ensures legacy compatibility and quantum-resistance. Fraud detection uses cross-region sampling; malicious validators are automatically slashed proportional to stake.</p>
+</section>
+
+<section id="recovery">
+  <h2>12. Self-Recovery & Emergency Governance</h2>
+  <p>Local pulse caching allows up to three hours of network outage. Cluster Nodes can temporarily raise quorum thresholds. A 5-of-7 multisig council may pause or rollback epochs in emergencies without compromising auditability.</p>
+</section>
+
+<section id="cost">
+  <h2>13. Operational Cost Model</h2>
+  <p>Regional cluster (~1M nodes) costs ~$1,500/month; global Core nodes $5,000–$10,000/month. Validator income and cost balance ensures sustainability; projected five-year budget supports continued development and node profitability.</p>
+</section>
+
+<section id="api">
+  <h2>14. Developer Appendix & API</h2>
+  <p>Public endpoints: /register, /pulse, /balance, /proof/&lt;id&gt;, /report. Databases track users, pulses, cluster ledgers, rewards, referrals, and proofs. Strict signature validation ensures deterministic and verifiable state transitions.</p>
+</section>
+
+<section id="launch">
+  <h2>15. Launch Plan & Milestones</h2>
+  <p>• Phase 1: MVP mobile app and internal testnet.<br>
+  • Phase 2: Public Testnet Alpha with regional clusters.<br>
+  • Phase 3: Testnet Beta with open validators and performance audits.<br>
+  • Phase 4: Mainnet Launch with full Mobile Pulse Node network.<br>
+  • Phase 5: Governance activation, DAO treasury operations, and cross-chain bridge expansion.</p>
+</section>
+
+<section id="appendices">
+  <h2>16. Mathematical Appendices & Glossary</h2>
+  <p>Includes emission equations, sampling proofs, node role definitions, and glossary (LN, LD, CL, CORE, PoPP, MB, PB, QHL). Enables full auditability and reproducibility of all models within Miyagi X Pulse.</p>
+</section>
+
+<nav class="main-nav">
+  <a href="https://kenjiroakihito.github.io/Miyagi-X.official/">← Back to Home</a>
+</nav>
+
+</body>
+</html>
