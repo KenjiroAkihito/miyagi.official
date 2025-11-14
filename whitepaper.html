@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Miyagi X Pulse Whitepaper v1.3</title>
+  <title>Miyagi X Pulse Whitepaper v1.4</title>
   <meta name="description" content="Miyagi X Pulse ($MIX) Whitepaper – Mobile-first blockchain with Proof of Pulse & Participation. Tokenomics, consensus, scalability, governance, and security.">
   <meta name="keywords" content="Miyagi X Pulse, MIX, blockchain, PoPP, mobile mining, decentralized, tokenomics, crypto">
   <meta name="robots" content="index, follow">
@@ -81,7 +81,7 @@
 <body>
 
 <header>
-  <h1>Miyagi X Pulse ($MIX) Whitepaper v1.3</h1>
+  <h1>Miyagi X Pulse ($MIX) Whitepaper v1.4</h1>
 </header>
 
 <nav class="main-nav">
@@ -141,39 +141,33 @@
 
 <section id="emission">
   <h2>6. Emission & Mining Model</h2>
-  <p>$MIX has a total supply of <strong>1 billion</strong> tokens. The primary distribution is emission-based: Mobile Pulse Nodes earn 60% of all tokens, with staking and validator rewards at 20%, developers at 10%, founders at 7%, and marketing at 3%. No public sale exists; all tokens are earned through network contribution.</p>
-  <p>Emission rates adjust dynamically according to verified pulse counts to maintain network equilibrium and predictable token supply.</p>
+  <p>All $MIX tokens are generated dynamically through Mobile Pulse Node activation. Node rewards consist of Base reward, Boost, and Referral bonus. Staking & Validator rewards, as well as Founder/Developer allocations, are funded exclusively via active node emissions. Marketing and Governance Treasury (Auralith DAO) allocations are also sourced from node activity.</p>
+  <p>This ensures a fully effort-driven token economy with no fixed supply, aligning network growth with real participation and contribution.</p>
 </section>
 
 <section id="rewards">
   <h2>7. Reward Accounting & Distribution Logic</h2>
-  <p>Epoch rewards are calculated as Rₚ,ₑ = Pₑ / Nᵥ,ₑ, where Pₑ is the epoch emission pool and Nᵥ,ₑ is the total valid pulses. Rewards propagate deterministically: referral bonuses (10%), cluster leader bonuses (1%), and all transactions are anchored with Merkle proofs for auditability.</p>
+  <p>Epoch rewards are calculated as Rₚ,ₑ = Pₑ / Nᵥ,ₑ, where Pₑ is the total emission from activated nodes and Nᵥ,ₑ is the total valid pulses. Rewards propagate deterministically, including referral bonuses (10%) and cluster leader bonuses (1%). Every reward transaction is anchored with Merkle proofs for transparency and auditability.</p>
 </section>
 
 <section id="scalability">
   <h2>8. Scalability & Capacity Planning</h2>
-  <p>Each million-node region generates ~6.6 GB of pulse data per hour, compressed to under 90 MB. Merkle tree leaves use 32 bytes, minimizing memory overhead. Sharded cluster architecture allows throughput exceeding 100,000 TPS-equivalent.</p>
+  <p>A million-node region generates ~6.6 GB of raw pulse data per hour, compressed to under 90 MB using Merkle aggregation. This design enables network throughput exceeding 100,000 transaction-equivalents per second while maintaining minimal memory overhead.</p>
 </section>
 
 <section id="economics">
   <h2>9. Node Economics & Staking Incentives</h2>
-  <p>Validator profitability: Profit = Rₙₒdₑ × MIX price − operational costs. Dynamic stake and emission adjustments maintain decentralization and prevent concentration. Example: 10,000 MIX/month × $0.10 = $1,000 revenue vs $800 cost = positive margin.</p>
+  <p>Validator profitability: Profit = Rₙₒdₑ × MIX price − operational costs. Dynamic stake and emission adjustments maintain decentralization and prevent validator concentration. For example, 10,000 MIX/month × $0.10 = $1,000 revenue vs $800 cost yields a positive margin.</p>
 </section>
 
 <section id="tokenomics">
   <h2>10. Tokenomics & Vesting</h2>
-  <p>Founder allocation: 7% (70M MIX) vests over 18 months with a 3-month cliff.<br>
-  Developer allocation: 10% (100M MIX) vests over 24 months with a 3-month cliff.<br>
-  Mobile Pulse Node Rewards: 60% (600M MIX).<br>
-  Staking & Validator Rewards: 20% (200M MIX).<br>
-  Marketing: 3% (30M MIX).<br>
-  Governance treasury (Auralith DAO): dynamic 1–2% funded via emission.<br>
-  All tokens are earned through network contribution; no idle reserves or public sales exist.</p>
+  <p>All $MIX tokens are generated exclusively through Mobile Pulse Node activation. Node rewards feed staking & validator allocations, Founder/Developer vesting, Marketing, and Governance Treasury. Vesting schedules are tied to network participation, e.g., Founder allocation fully vests within 12 months if sufficient node activity occurs. No idle reserves or public sales exist, making the tokenomics fully effort-driven.</p>
 </section>
 
 <section id="security">
   <h2>11. Security & Quantum Strategy</h2>
-  <p>Hybrid cryptography (ECDSA + CRYSTALS-Dilithium) ensures legacy compatibility and quantum-resistance. Fraud detection uses cross-region sampling; malicious validators are automatically slashed proportional to stake.</p>
+  <p>Hybrid cryptography (ECDSA + CRYSTALS-Dilithium) ensures legacy compatibility and quantum-resistance. Fraud detection uses cross-region sampling, and malicious validators are automatically slashed proportional to their stake.</p>
 </section>
 
 <section id="recovery">
@@ -183,7 +177,7 @@
 
 <section id="cost">
   <h2>13. Operational Cost Model</h2>
-  <p>Regional cluster (~1M nodes) costs ~$1,500/month; global Core nodes $5,000–$10,000/month. Validator income and cost balance ensures sustainability; projected five-year budget supports continued development and node profitability.</p>
+  <p>Regional cluster (~1M nodes) costs ~$1,500/month; global Core nodes $5,000–$10,000/month. Validator income and cost balance ensures sustainability. Five-year projections support continued development and node profitability.</p>
 </section>
 
 <section id="api">
@@ -193,11 +187,11 @@
 
 <section id="launch">
   <h2>15. Launch Plan & Milestones</h2>
-  <p>• Phase 1: MVP mobile app and internal testnet.<br>
-  • Phase 2: Public Testnet Alpha with regional clusters.<br>
-  • Phase 3: Testnet Beta with open validators and performance audits.<br>
-  • Phase 4: Mainnet Launch with full Mobile Pulse Node network.<br>
-  • Phase 5: Governance activation, DAO treasury operations, and cross-chain bridge expansion.</p>
+  <p>Phase 1: MVP mobile app and internal testnet.<br>
+     Phase 2: Public Testnet Alpha with regional clusters.<br>
+     Phase 3: Testnet Beta with open validators and performance audits.<br>
+     Phase 4: Mainnet Launch with full Mobile Pulse Node network.<br>
+     Phase 5: Governance activation, DAO treasury operations, and cross-chain bridge expansion.</p>
 </section>
 
 <section id="appendices">
