@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tokenomics | Miyagi X Pulse</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* --- CORE THEME (Matches Main Site) --- */
+    * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background:
+        linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.85)),
+        url("assets/background.jpg") no-repeat center top fixed;
+      background-size: cover;
+      background-color: #000;
+      color: #e3e7eb;
+      line-height: 1.6;
+    }
+
+    /* --- HEADER / NAVBAR --- */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(10, 12, 16, 0.9);
+      padding: 0 40px;
+      height: 80px;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .logo {
+      font-size: 1.4em;
+      font-weight: 700;
+      color: #42caff;
+      text-decoration: none;
+      letter-spacing: 0.5px;
+      margin-right: 20px;
+    }
+
+    nav { display: flex; align-items: center; gap: 25px; height: 100%; }
+    
+    nav > a {
+      text-decoration: none;
+      color: #b8c2cc;
+      font-weight: 500;
+      font-size: 0.9em;
+      transition: 0.2s;
+    }
+    nav > a:hover { color: #42caff; }
+
+    .nav-cta {
+      background: #42caff;
+      color: #000 !important;
+      padding: 8px 20px;
+      border-radius: 6px;
+      font-weight: 600;
+    }
+    .nav-cta:hover { background: #63d7ff; }
+
+    /* --- PAGE CONTENT STYLES --- */
+    .page-wrapper {
+      max-width: 1000px;
+      margin: 140px auto 80px; /* Offset for fixed header */
+      padding: 0 20px;
+    }
+
+    h1 { font-size: 2.8em; font-weight: 700; color: #fff; margin-bottom: 10px; }
+    h2 { font-size: 1.8em; color: #fff; margin-bottom: 25px; border-left: 4px solid #42caff; padding-left: 15px; }
+    h3 { font-size: 1.2em; color: #42caff; margin-bottom: 10px; }
+    
+    .intro-text { font-size: 1.15em; color: #cbd5df; margin-bottom: 50px; max-width: 800px; }
+    
+    .divider { margin: 60px 0; height: 1px; background: rgba(255,255,255,0.07); }
+
+    /* --- STATS GRID (Token Details) --- */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-bottom: 60px;
+    }
+
+    .stat-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.05);
+      padding: 25px;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .stat-label { font-size: 0.85em; text-transform: uppercase; letter-spacing: 1px; color: #7a8590; display: block; margin-bottom: 8px; }
+    .stat-value { font-size: 1.5em; font-weight: 700; color: #fff; }
+    .stat-value.highlight { color: #42caff; }
+
+    /* --- TABLE STYLES --- */
+    .table-container {
+      overflow-x: auto;
+      background: rgba(14, 17, 22, 0.5);
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    table { width: 100%; border-collapse: collapse; min-width: 600px; }
+    
+    th {
+      text-align: left;
+      padding: 18px 25px;
+      background: rgba(66, 202, 255, 0.08);
+      color: #42caff;
+      font-weight: 600;
+      font-size: 0.9em;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    td {
+      padding: 18px 25px;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+      color: #cbd5df;
+      font-size: 0.95em;
+    }
+
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: rgba(255,255,255,0.02); }
+
+    /* --- INFO CARDS (Mining & Utility) --- */
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-top: 30px;
+    }
+
+    .info-card {
+      background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
+      border: 1px solid rgba(255,255,255,0.05);
+      padding: 30px;
+      border-radius: 8px;
+      transition: transform 0.2s;
+    }
+
+    .info-card:hover {
+      border-color: rgba(66, 202, 255, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .info-card p { font-size: 0.95em; color: #aebbc9; }
+    .info-card ul { margin-left: 20px; margin-top: 10px; color: #aebbc9; font-size: 0.95em; }
+    .info-card li { margin-bottom: 6px; }
+
+    /* --- FOOTER --- */
+    footer {
+      margin-top: 80px;
+      text-align: center;
+      font-size: 0.85em;
+      padding: 40px 0;
+      color: #7a8590;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+
+    @media (max-width: 768px) {
+      .stats-grid { grid-template-columns: 1fr; }
+      header { padding: 0 20px; }
+      nav { display: none; } /* Simplified for this snippet */
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <a href="index.html" class="logo">Miyagi X Pulse</a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="#" style="color:#42caff;">Tokenomics</a>
+      <a href="#">Whitepaper</a>
+      <a href="#" class="nav-cta">Buy MIX</a>
+    </nav>
+  </header>
+
+  <div class="page-wrapper">
+    
+    <h1>Tokenomics Overview</h1>
+    <p class="intro-text">
+      Miyagi X Pulse introduces a sustainable mobile-node earning ecosystem where users generate rewards 
+      through Proof-of-Pulse (PoPP) mining, boosts, and long-term participation. Our model ensures 
+      fair distribution and ecosystem longevity.
+    </p>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <span class="stat-label">Token Name</span>
+        <span class="stat-value">Miyagi X Pulse</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Symbol</span>
+        <span class="stat-value highlight">MIX</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Total Fixed Supply</span>
+        <span class="stat-value">1,000,000,000</span>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <section>
+      <h2>Token Distribution</h2>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Category</th>
+              <th width="15%">Allocation</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Community & Mining Rewards</strong></td>
+              <td style="color:#42caff; font-weight:700;">45%</td>
+              <td>Distributed gradually to mobile miners, boost participants, and stakers. Designed to last multiple years.</td>
+            </tr>
+            <tr>
+              <td><strong>Ecosystem & App Growth</strong></td>
+              <td style="color:#42caff; font-weight:700;">20%</td>
+              <td>Used for feature development, infrastructure, expansion phases, and long-term scaling.</td>
+            </tr>
+            <tr>
+              <td><strong>Team & Core Contributors</strong></td>
+              <td>15%</td>
+              <td>Reserved for developers. Locked and vested linearly over 36–48 months.</td>
+            </tr>
+            <tr>
+              <td><strong>Marketing & Partnerships</strong></td>
+              <td>10%</td>
+              <td>Promotions, KOL collaborations, campaigns, and exchange listings.</td>
+            </tr>
+            <tr>
+              <td><strong>Liquidity & Reserve Pool</strong></td>
+              <td>10%</td>
+              <td>Supports liquidity pools, centralized exchange listings, and emergency stabilizers.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <section>
+      <h2>Mining & Node Reward System</h2>
+      <div class="info-grid">
+        <div class="info-card">
+          <h3>Base Mining Rate</h3>
+          <p>Every user earns MIX by running the mobile node. Rewards depend strictly on uptime, device activity, and connection consistency.</p>
+        </div>
+        <div class="info-card">
+          <h3>6-Hour Boost</h3>
+          <p>Users can activate a 6-hour boost to temporarily increase mining output, encouraging daily engagement and network validation.</p>
+        </div>
+        <div class="info-card">
+          <h3>Referral Bonus</h3>
+          <p>Inviting users generates a percentage bonus based on referral activity. Strict anti-abuse measures ensure network fairness.</p>
+        </div>
+        <div class="info-card">
+          <h3>Long-Term Multiplier</h3>
+          <p>Users who remain active over time receive a higher earning multiplier, rewarding commitment over short-term farming.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <section>
+      <h2>Vesting & Utility</h2>
+      <div class="info-grid">
+        <div class="info-card">
+          <h3>Vesting Schedule</h3>
+          <ul>
+            <li><strong>Team:</strong> 12-month lock, then 48-month linear vesting.</li>
+            <li><strong>Marketing:</strong> 6-month lock, 12-month vesting.</li>
+            <li><strong>Ecosystem:</strong> Released based on milestone achievements.</li>
+          </ul>
+        </div>
+
+        <div class="info-card">
+          <h3>MIX Token Utility</h3>
+          <ul>
+            <li><strong>In-App:</strong> Mining speed upgrades & boost activation.</li>
+            <li><strong>Governance:</strong> Vote on updates and parameters.</li>
+            <li><strong>Staking:</strong> Passive rewards & advanced node tiers.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <section>
+      <h2>Sustainability Model</h2>
+      <p>
+        Miyagi X Pulse follows a fair, transparent structure. The majority of tokens are allocated to the community through mining. 
+        Anti-inflationary measures include a <strong>fixed maximum supply</strong>, scheduled mining reductions (halvings), and 
+        token burn mechanisms tied to premium feature usage.
+      </p>
+    </section>
+
+  </div>
+
+  <footer>
+    © 2025 Miyagi X Pulse — Quantum Blockchain Network
+  </footer>
+
+</body>
+</html> 
