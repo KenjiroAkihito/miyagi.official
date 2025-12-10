@@ -1,254 +1,682 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Miyagi X Pulse (MIX) — Quantum-Hybrid Whitepaper (Expanded)</title>
-<style>
-  body { font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; margin: 0; color: #0b1220; background: #f6f8fb; }
-  .container { display: flex; max-width: 1200px; margin: 32px auto; padding: 20px; gap: 24px; }
-  aside { width: 260px; background: #fff; border-radius: 8px; padding: 18px; box-shadow: 0 6px 18px rgba(11,18,32,0.06); }
-  main { flex: 1; background: #fff; border-radius: 8px; padding: 28px; box-shadow: 0 6px 18px rgba(11,18,32,0.06); }
-  .toc-link { display: block; color: #0b5cff; margin: 8px 0; text-decoration: none; font-size: 14px; }
-  h1 { margin: 0 0 8px; font-size: 26px; }
-  h2 { font-size: 20px; margin-top: 22px; }
-  h3 { font-size: 16px; margin-top: 16px; }
-  p, li, pre { font-size: 14px; color: #111; line-height: 1.6; }
-  pre { background: #f3f6fb; padding: 12px; border-radius: 6px; overflow: auto; font-family: Menlo, monospace; }
-  .formula { font-family: Menlo, monospace; background: #0b1220; color: #e6f7ff; padding: 10px; border-radius: 6px; display: inline-block; }
-  table { width: 100%; border-collapse: collapse; margin-top: 12px; }
-  th, td { border: 1px solid #e6eef9; padding: 8px; text-align: left; }
-  .wp-table thead th { background: #f0f6ff; }
-  .section-note { font-size: 13px; color: #445; }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Technical Whitepaper | Miyagi X Pulse</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  
+  <style>
+    /* --- CORE THEME --- */
+    * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #000;
+      color: #e3e7eb;
+      line-height: 1.7;
+      /* Subtle gradient background only at top */
+      background-image: linear-gradient(rgba(0,0,0,0.8), #000), url("assets/background.jpg");
+      background-repeat: no-repeat;
+      background-size: 100% 600px;
+    }
+
+    /* --- NAVBAR --- */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(10, 12, 16, 0.95);
+      padding: 0 40px;
+      height: 80px;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .logo {
+      font-size: 1.4em;
+      font-weight: 700;
+      color: #42caff;
+      text-decoration: none;
+      letter-spacing: 0.5px;
+      margin-right: 20px;
+    }
+
+    nav { display: flex; align-items: center; gap: 25px; height: 100%; }
+    
+    nav > a {
+      text-decoration: none;
+      color: #b8c2cc;
+      font-weight: 500;
+      font-size: 0.9em;
+      transition: 0.2s;
+    }
+    nav > a:hover { color: #42caff; }
+
+    .nav-cta {
+      background: #42caff;
+      color: #000 !important;
+      padding: 8px 20px;
+      border-radius: 6px;
+      font-weight: 600;
+    }
+    .nav-cta:hover { background: #63d7ff; }
+
+    /* --- PAGE LAYOUT --- */
+    .container {
+      max-width: 1200px;
+      margin: 120px auto 80px;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: 280px 1fr; /* Sidebar + Content */
+      gap: 60px;
+    }
+
+    /* --- SIDEBAR TOC --- */
+    aside {
+      position: sticky;
+      top: 120px; /* Space from top of screen */
+      height: fit-content;
+      border-right: 1px solid rgba(255,255,255,0.05);
+      padding-right: 20px;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+
+    aside h4 {
+      color: #fff;
+      margin-bottom: 20px;
+      font-size: 0.9em;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .toc-link {
+      display: block;
+      color: #7a8590;
+      text-decoration: none;
+      font-size: 0.85em;
+      margin-bottom: 10px;
+      transition: 0.2s;
+      padding-left: 10px;
+      border-left: 2px solid transparent;
+      cursor: pointer;
+    }
+
+    .toc-link:hover, .toc-link.active {
+      color: #42caff;
+      border-left-color: #42caff;
+    }
+
+    /* Scrollbar for sidebar */
+    aside::-webkit-scrollbar { width: 4px; }
+    aside::-webkit-scrollbar-thumb { background: #333; border-radius: 2px; }
+
+    /* --- MAIN CONTENT --- */
+    main {
+      background: rgba(14, 17, 22, 0.4);
+      padding: 40px;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.03);
+    }
+
+    /* FIX: Scroll Margin prevents header from covering titles */
+    section {
+        scroll-margin-top: 100px;
+        margin-bottom: 60px; /* Added spacing between sections */
+    }
+
+    h1 { font-size: 2.4em; font-weight: 700; color: #fff; margin-bottom: 10px; }
+    .version { color: #42caff; font-family: monospace; font-size: 0.9em; display: block; margin-bottom: 40px; }
+
+    h2 { 
+      font-size: 1.8em; 
+      color: #fff; 
+      margin-top: 60px; 
+      margin-bottom: 25px; 
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    section:first-of-type h2 { margin-top: 0; }
+
+    h3 { font-size: 1.3em; color: #42caff; margin-top: 40px; margin-bottom: 15px; }
+
+    p { margin-bottom: 20px; color: #cbd5df; text-align: justify; }
+
+    ul, ol { margin-bottom: 20px; padding-left: 25px; color: #cbd5df; }
+    li { margin-bottom: 10px; }
+
+    /* Code/Math block style */
+    .formula-block {
+      background: rgba(0,0,0,0.3);
+      padding: 20px;
+      border-left: 3px solid #42caff;
+      font-family: 'Courier New', monospace;
+      color: #aebbc9;
+      margin: 25px 0;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      font-size: 0.95em;
+    }
+
+    /* Table Styles */
+    .wp-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 30px 0;
+      background: rgba(255,255,255,0.02);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    
+    .wp-table th {
+      text-align: left;
+      padding: 15px 20px;
+      background: rgba(66, 202, 255, 0.1);
+      color: #42caff;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      font-size: 0.9em;
+    }
+
+    .wp-table td {
+      padding: 15px 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+      color: #cbd5df;
+      font-size: 0.9em;
+    }
+    
+    .wp-table tr:last-child td { border-bottom: none; }
+
+    @media (max-width: 900px) {
+      .container { grid-template-columns: 1fr; }
+      aside { display: none; } 
+      header { padding: 0 20px; }
+      nav { display: none; }
+    }
+  </style>
 </head>
+
 <body>
-<header style="max-width:1200px;margin:24px auto;padding:0 20px">
-  <h1>Miyagi X Pulse (MIX)</h1>
-  <div style="color:#334;">Quantum-Hybrid Pulse Ledger — Technical Whitepaper v1.0 (Expanded)</div>
-</header>
 
-<div class="container">
-  <aside>
-    <h4>Contents</h4>
-    <a href="#section-1" class="toc-link">1. Executive Summary</a>
-    <a href="#section-2" class="toc-link">2. System Overview</a>
-    <a href="#section-3" class="toc-link">3. Hybrid Pulse Architecture</a>
-    <a href="#section-4" class="toc-link">4. Consensus Mechanism (PoPP)</a>
-    <a href="#section-5" class="toc-link">5. Security Model</a>
-    <a href="#section-6" class="toc-link">6. Tokenomics (Model)</a>
-    <a href="#section-7" class="toc-link">7. Economic Incentives</a>
-    <a href="#section-8" class="toc-link">8. Governance</a>
-    <a href="#section-9" class="toc-link">9. Scaling Strategy</a>
-    <a href="#section-10" class="toc-link">10. Tokenomics Allocation</a>
-    <a href="#section-11" class="toc-link">11. Security Analysis</a>
-    <a href="#section-12" class="toc-link">12. Self-Recovery</a>
-    <a href="#section-13" class="toc-link">13. Operational Costs</a>
-    <a href="#section-14" class="toc-link">14. API & Developer Appendix</a>
-    <a href="#section-15" class="toc-link">15. Launch Plan</a>
-    <a href="#section-16" class="toc-link">16. Appendices</a>
-  </aside>
+  <header>
+    <a href="index.html" class="logo">Miyagi X Pulse</a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="tokenomics.html">Tokenomics</a>
+      <a href="#" style="color:#42caff;">Whitepaper</a>
+      <a href="#" class="nav-cta">Buy MIX</a>
+    </nav>
+  </header>
 
-  <main>
+  <div class="container">
+    
+    <aside>
+      <h4>Contents</h4>
+      <a href="#section-1" class="toc-link">1. Executive Summary</a>
+      <a href="#section-2" class="toc-link">2. System Overview</a>
+      <a href="#section-3" class="toc-link">3. Hybrid Pulse Architecture</a>
+      <a href="#section-4" class="toc-link">4. Consensus Mechanism</a>
+      <a href="#section-5" class="toc-link">5. Security Model</a>
+      <a href="#section-6" class="toc-link">6. Tokenomics (Model)</a>
+      <a href="#section-7" class="toc-link">7. Economic Incentives</a>
+      <a href="#section-8" class="toc-link">8. Governance</a>
+      <a href="#section-9" class="toc-link">9. Scaling Strategy</a>
+      <a href="#section-10" class="toc-link">10. Tokenomics (Allocation)</a>
+      <a href="#section-11" class="toc-link">11. Security Analysis</a>
+      <a href="#section-12" class="toc-link">12. Self-Recovery</a>
+      <a href="#section-13" class="toc-link">13. Operational Cost</a>
+      <a href="#section-14" class="toc-link">14. API & Dev Appendix</a>
+      <a href="#section-15" class="toc-link">15. Launch Plan</a>
+      <a href="#section-16" class="toc-link">16. Appendices</a>
+    </aside>
 
-    <section id="section-1">
-      <h2>1. Executive Summary</h2>
-      <p class="section-note">This executive summary is intentionally rigorous — it states goals, measurable requirements, and deliverables so auditors and engineers can validate feasibility directly.</p>
-      <p>
-        Miyagi X Pulse (MIX) combines a mobile-first pulse-producing layer with a hierarchical consensus & periodic checkpoint anchoring to a secure Layer-1. The design objectives are:
-      </p>
-      <ul>
-        <li>Enable mass participation with negligible device energy overhead (target: <=1% battery/day for active users).</li>
-        <li>Provide auditable, mathematically bounded finality via hierarchical aggregation and L1 anchoring.</li>
-        <li>Support quantum-resistant cryptography and an optional quantum-hybrid entropy layer for improved randomness and Q-score calculations.</li>
-        <li>Deliver predictable token emission and long-term economic sustainability aligned to participation instead of capital concentration.</li>
-      </ul>
-      <p>Deliverables in this whitepaper: formal protocol definitions, sampling and leader-selection proofs, emission derivations, security bounds, capacity planning, API contracts, and appendices with mathematical derivations and CSV-ready emission tables.</p>
-    </section>
+    <main>
+      <h1>Miyagi X Pulse (MIX)</h1>
+      <span class="version">Technical Whitepaper v1.0 — Full Institutional Release</span>
 
-    <section id="section-2">
-      <h2>2. System Overview</h2>
-      <h3>2.1 Layers and Roles (formal)</h3>
-      <p>The system is composed of three primary layers:</p>
-      <ul>
-        <li><strong>Pulse Layer (mobile):</strong> Linked Nodes (LN) — smartphones — generate signed pulses each epoch.</li>
-        <li><strong>Consensus Layer (hierarchical):</strong> Leader (LD) → Cluster (CL) → Core (CORE) nodes aggregate, sample, and finalize.</li>
-        <li><strong>Anchoring Layer:</strong> Periodic checkpoints are committed to a secure Layer-1 chain for external finality.</li>
-      </ul>
+      <section id="section-1">
+        <h2>Section 1 — Executive Summary</h2>
+        <p>
+          Miyagi X Pulse (MIX) is a hybrid distributed ledger system designed to support high-scale mobile participation through an energy-efficient consensus model known as <strong>Proof of Pulse and Participation (PoPP)</strong>. Rather than relying on high-performance hardware or traditional proof-of-work computation, MIX enables millions of smartphones to act as lightweight nodes contributing secure activity proofs (“pulses”) at fixed intervals.
+        </p>
+        <p>
+          These pulses are aggregated into regional Micro-Blocks and finalized into global Pulse Blocks, which are periodically anchored to a major Layer-1 blockchain. This hybrid architecture combines the scalability and low operational requirements of a mobile-first network with the security guarantees of an established L1 chain.
+        </p>
+        <p>
+          MIX introduces a mathematically governed emission schedule, long-term sustainability mechanisms, and a token distribution strategy designed to support both community participation and structured ecosystem growth. The system ensures that 45% of total supply is allocated directly to mobile miners, providing transparent, predictable, and auditable distribution over multiple years.
+        </p>
+      </section>
+
+      <section id="section-2">
+        <h2>Section 2 — System Overview</h2>
         
+        <h3>2.1 Network Layers</h3>
+        <p>MIX is structured into three functional layers:</p>
+        <ul>
+          <li><strong>Pulse Layer (Mobile Layer):</strong> Smartphones send periodic pulses (activity proofs) containing timestamped device attestations and cryptographic signatures.</li>
+          <li><strong>Consensus Layer (Leader/Cluster/Core Nodes):</strong> A hierarchical proof network. Leaders aggregate ~1,000 pulses; Cluster Nodes build Micro-Blocks; Core Nodes finalize global Pulse Blocks. </li>
+          <li><strong>Anchoring Layer (Hybrid Finality):</strong> The finalized Pulse Block root hash is committed to a major Layer-1 blockchain at fixed intervals (every 12 epochs).</li>
+        </ul>
 
-      <h3>2.2 Data types and commitment model</h3>
-      <p>Canonical data structures (human-readable form):</p>
-      <pre>PULSE P = { uid, epoch, timestamp, region_id, device_hash, metadata, signature }</pre>
-      <pre>MICROBLOCK MB = MerkleRoot(P_1, ..., P_n)</pre>
-      <pre>PULSEBLOCK PB = { MB_region1, ..., MB_regionK, PB_meta, CORE_signatures }</pre>
-      <pre>CHECKPOINT CP = Sign_CORE( Hash(PB) || Hash(ledger_snapshot) || epoch_range )</pre>
-      <p>All commitments rely on Merkle roots; reward ledger snapshots are Merkleized to allow compact Merkle proofs against rewards and balances.</p>
-    </section>
+        <h3>2.2 Data Structures</h3>
+        <p>MIX uses the following core data structures:</p>
+        <ul>
+          <li><strong>Pulse (P):</strong> Contains uid, epoch, device hash, metadata, and cryptographic signature.</li>
+          <li><strong>Micro-Block (MB):</strong> A Merkle tree of pulses from a single region.</li>
+          <li><strong>Pulse Block (PB):</strong> A consolidated structure containing Merkle roots of all Micro-Blocks.</li>
+          <li><strong>Checkpoint (CP):</strong> A hash commitment stored on the anchoring L1 chain.</li>
+        </ul>
 
-    <section id="section-3">
-      <h2>3. Hybrid Pulse Architecture</h2>
-      <h3>3.1 Pulse production, cryptographic commitment, and state</h3>
-      <p>The cryptographic commitment for the pulse signature relies on a strong, collision-resistant hash function \(H(\cdot)\) such as SHA3-256 concatenated with a time-bound nonce. The device's **attestation hash** is derived from shielded hardware indicators to prevent cloning and spoofing.
-        The overall network state is maintained using a **Merkle Patricia Trie (MPT)**, allowing for efficient verification of state transitions without requiring nodes to download the entire history.</p>
+        <h3>2.3 Epoch Structure</h3>
+        <p>MIX uses fixed 1-hour epochs. This supports statistical predictability in the emission schedule and simplifies reward accounting.</p>
+      </section>
+
+      <section id="section-3">
+        <h2>Section 3 — Hybrid Pulse Architecture</h2>
         
-
-      <h3>3.2 Validation pipeline, batching, and Merkle proofs</h3>
-      <p>Each LN signs pulse content prior to broadcast. LD performs batched signature verification using batch-ECDSA accumulation (or BLS when used) to reduce per-pulse verification cost. CLs validate a random sample of leaf proofs contained within the LD batch Merkle tree. MBs are formed and appended only when sampling constraints are satisfied.</p>
-
-      <h3>3.3 Checkpoint formation, anchoring, and finality</h3>
-      <p>Checkpoints are produced every \(E_a\) epochs (default \(E_a = 12\)). The checkpoint structure includes the finalized global state root and reward ledger root. Crucially, the commitment is secured by **BLS Multi-Signatures** from a quorum of Core Nodes, providing aggregation benefits and resistance against single-node compromise.</p>
-      <pre>global_root = MerkleRoot(PB_1 .. PB_Ea)
-ledger_root = MPT_Root(reward_ledger_snapshot)
-combined = Hash(global_root || ledger_root || epoch_range)
-CP = BLS_Quorum_Sign(combined)</pre>
-      <p>The Anchoring interval \(E_a\) is a tunable parameter balancing transaction finality latency with the L1 gas cost.</p>
-    </section>
-
-    <section id="section-4">
-      <h2>4. Consensus Mechanism (PoPP)</h2>
-      <h3>4.1 Protocol specification and dynamic parameters</h3>
-      <p>PoPP = (EpochDuration, LeaderSelection, SamplingPolicy, FinalityRules). For implementation:</p>
-      <ul>
-        <li>EpochDuration: 1 hour for pulses; sub-windows for boosts.</li>
-        <li>LeaderSelection: **Verifiable Random Function (VRF)**-based, thresholded by stake and historical performance score.</li>
-        <li>SamplingPolicy: CL uses randomized sampling; sample size \(m\) computed by formula in Section 5.</li>
-        <li>FinalityRules: MB accepted on CL quorum; CP anchored to L1 provides economic finality.</li>
-      </ul>
-
-      <h3>4.2 VRF leader selection and cryptographic thresholds</h3>
-      <p>For candidate \(v\), compute VRF output \(\pi_v = \text{VRF}(\text{sk}_v, H(\text{epoch} \parallel \text{cluster\_id}))\). Accept leader if \(\pi_v < T\) where \(T\) is calibrated so expected leader count per cluster is \(\approx 1\) per epoch. VRF guarantees unpredictability and non-bias under standard cryptographic assumptions, making LD selection unexploitable before the epoch begins.</p>
-
-      <h3>4.3 Reward windows, boost mechanics, and control loops</h3>
-      <p>Boost windows (6 hours) allow optional user-triggered multiplier \(b \ge 1\). To preserve supply invariants, global boost utilization is capped via a **PID control loop** that dynamically reduces the base emission factor when aggregate boost usage exceeds the protocol's safety threshold, ensuring the total emission \(R_t\) remains mathematically bounded.</p>
-    </section>
-
-    <section id="section-5">
-      <h2>5. Security Model</h2>
-      <h3>5.1 Threat taxonomy, cost of collusion, and L1 enforcement</h3>
-      <p>Important attacks and required attacker budgets:</p>
-      <ul>
-        <li>**Sybil farming:** Cost = number of devices * hardware provisioning + account creation friction; mitigations: shielded hardware attestation, rate-limits, reputation score cost.</li>
-        <li>**Validator collusion:** Cost is the aggregated staked value $S_c$. The **cost of collusion** $C_{collusion}$ must exceed the potential gain $G$: $C_{collusion} = S_c \cdot P_{MXP} + C_{slashing} > G$. Protocol tolerates up to $1/3$ honest failures; L1 anchoring provides an additional economic barrier.</li>
-        <li>**Checkpoint forgery:** Requires simultaneous CL/CORE collusion (secured by BLS multi-sig) & parent L1 reorg within contestation window; probability $P_{false}$ is negligible.</li>
-      </ul>
-
-      <h3>5.2 Sampling theorem and detection bounds</h3>
-      <p>To detect a faulty fraction \(f\) with confidence \(\alpha\), choose sample size \(m\) such that:</p>
-      <pre class="formula">m \geq \frac{\ln(1-\alpha)}{\ln(1-f)}</pre>
-      <p>Example: \(f=0.05, \alpha=0.999 \Rightarrow m \approx 134\) samples. We use this \(m\) per CL per MB assembly to ensure detection probabilities stay below 0.1% for expected fault rates, minimizing verification cost while maximizing certainty.</p>
+        <h3>3.1 Pulse Production, Cryptographic Commitment, and State</h3>
+        <p>The Pulse signature relies on a strong, collision-resistant hash function \(H(\cdot)\) concatenated with a time-bound nonce. The device's **attestation hash** prevents cloning. The network state is maintained using a **Merkle Patricia Trie (MPT)** for efficient verification of state transitions.</p>
+        <div class="formula-block">P = { uid, epoch_id, timestamp, device_hash, region_id, metadata, signature }</div>
+        <p>Where the signature is computed using:</p>
+        <div class="formula-block">sig = Sign(private_key, H(uid ∥ epoch_id ∥ timestamp ∥ device_hash))</div>
         
-    </section>
+        <h3>3.2 Validation Pipeline, Batching, and Merkle Proofs</h3>
+        <p>LDs perform batched signature verification using batch-ECDSA accumulation to reduce per-pulse verification cost. CLs validate a random sample of leaf proofs contained within the LD batch Merkle tree.</p>
 
-    <section id="section-6">
-      <h2>6. Tokenomics (Model)</h2>
-      <h3>6.1 Supply and allocation model</h3>
-      <p>Total supply \(S = 1,000,000,000\) MIX. Mining allocation \(M = 0.45 S = 450,000,000\) MIX.</p>
+        <h3>3.5 Checkpoint Commitment, Anchoring, and Finality</h3>
+        <p>Checkpoints are secured by **BLS Multi-Signatures** from a quorum of Core Nodes, providing aggregation benefits and strong resilience.</p>
+        <div class="formula-block">Compute global_root = MerkleRoot(PulseBlock)
+Compute ledger_root = MerkleRoot(reward_ledger)
+Compute combined_hash = H(global_root ∥ ledger_root ∥ epoch_range)
+CP = BLS_Quorum_Sign(combined)
+Submit CP to the anchoring L1 chain</div>
+      </section>
 
-      <h3>6.2 Discrete emission derivation and epoch reward calculation</h3>
-      <p>The continuous emission formula $R(t) = R_0 \cdot e^{-k t}$ serves as the theoretical base. For practical, discrete epoch-based issuance, the annual emission for year \(Y\) is $R_Y = R_0 \cdot k \cdot e^{-k(Y-1)}$.
-        The initial reward per epoch (\(R_{epoch, 1}\)) is calculated by dividing the first year's emission ($R_1$) by the total number of epochs in the year ($E_{year} = 365 \times 24$, if epoch duration is 1 hour):</p>
-      <pre class="formula">R_{epoch, Y} = \frac{M \cdot k \cdot e^{-k(Y-1)}}{E_{year}}</pre>
-      <p>This ensures the emission curve is smooth and mathematically bounded, providing predictable rewards for miners.</p>
+      <section id="section-4">
+        <h2>Section 4 — Consensus Mechanism</h2>
         
-    </section>
+        <h3>4.1 Overview</h3>
+        <p>
+          Miyagi X Pulse introduces <strong>Proof of Pulse & Participation (PoPP)</strong>, a lightweight consensus mechanism optimized for mobile-first decentralized networks.
+        </p>
 
-    <section id="section-7">
-      <h2>7. Economic Incentives</h2>
-      <p>Per node reward \(R_{i,e}\) is determined by the total epoch reward divided by active nodes, weighted by \(W_i\), the node's participation weight:</p>
-      <pre class="formula">W_i = w_u \cdot U_i + w_h \cdot H_i + w_r \cdot Ref_i + w_d \cdot D_i</pre>
-      <p>Weights (\(w_*\)) are governance-configurable. \(U_i\) is Uptime; \(H_i\) is Honesty score; \(Ref_i\) is referral performance; \(D_i\) is region-diversity factor to encourage geographic distribution.</p>
-    </section>
+        <h3>4.2 Pulse Epoch Structure</h3>
+        <p>
+          Each epoch lasts <code>t = 6 hours</code> by protocol specification. Active MPNs generate a cryptographic pulse:
+        </p>
+        <div class="formula-block">$$ P_i = H(UID_i \parallel T_e \parallel S_i) $$</div>
+        <p>Cluster Validators then aggregate pulses using a Merkle accumulator:</p>
+        <div class="formula-block">$$ M_e = MerkleRoot(P_1, P_2, ..., P_n) $$</div>
 
-    <section id="section-8">
-      <h2>8. Governance</h2>
-      <p>Governance uses a hybrid model: routine operational decisions are Council-managed; critical economic or protocol changes require on-chain proposals with weighted voting. Emergency control is exercised via a time-locked multisig (5-of-7 CORE) and automatic contestation windows tied to CP anchoring. This dual structure ensures both operational efficiency and decentralized long-term security.</p>
-    </section>
-
-    <section id="section-9">
-      <h2>9. Scaling Strategy: Sharding and Micro-Block Constraints</h2>
-      <h3>9.1 Scaling through Sharding Domains and Capacity Planning</h3>
-      <p>The network scales horizontally by defining **sharding domains** based on geographic region and network latency. Each sharding domain is managed by a distinct Cluster Node set (CLs) that independently process Pulse data in parallel. This avoids a global bottleneck in the verification layer.</p>
-        <p>The total theoretical capacity \(N_{max}\) is proportional to the number of Core Nodes and the aggregation factor:</p>
-      <pre>N_{max} = N_{CORE} \cdot N_{CL/CORE} \cdot N_{LD/CL} \cdot N_{LN/LD}</pre>
-
-      <h3>9.2 Micro-Block (MB) Capacity and Verification</h3>
-      <p>To maintain verification speed, Micro-Blocks are capped at $10^3$ pulses (approx. 1MB compressed). CL verification CPU cost scales as \(O(m)\) per MB (where $m$ is the sample size); selecting $m \ll N$ keeps costs feasible while preserving statistical guarantees.</p>
-    </section>
-
-    <section id="section-10">
-      <h2>10. Tokenomics Allocation (Details)</h2>
-      <p>The total fixed supply is 1 Billion MIX. The allocation breakdown provides long-term stability and guarantees resource allocation for critical development and community growth over the lifetime of the network.</p>
+        <h3>4.3 Leader Selection</h3>
+        <p>Leader selection uses a deterministic VRF:</p>
+        <div class="formula-block">$$ L_e = VRF( SK_{cv}, H(M_e \parallel T_e ) ) $$</div>
         
-      <table class="wp-table">
-        <thead><tr><th>Category</th><th>%</th><th>Amount (MIX)</th><th>Vesting</th></tr></thead>
-        <tbody>
-          <tr><td>Community & Mining</td><td>45%</td><td>450,000,000</td><td>Emission schedule (Appendix)</td></tr>
-          <tr><td>Ecosystem & Growth</td><td>20%</td><td>200,000,000</td><td>Milestone-driven releases</td></tr>
-          <tr><td>Team & Contributors</td><td>15%</td><td>150,000,000</td><td>12-month cliff, 36–48 month linear</td></tr>
-          <tr><td>Marketing & Partnerships</td><td>10%</td><td>100,000,000</td><td>Quarterly</td></tr>
-          <tr><td>Liquidity & Reserve</td><td>10%</td><td>100,000,000</td><td>Multi-sig</td></tr>
-        </tbody>
-      </table>
-    </section>
+        <h3>4.4 Finality Model</h3>
+        <ul>
+            <li><strong>Soft Finality:</strong> 1-2 seconds (Pulse Layer).</li>
+            <li><strong>Hard Finality:</strong> Anchoring to L1 every 4-12 hours.</li>
+        </ul>
+      </section>
 
-    <section id="section-11">
-      <h2>11. Security Analysis (rigorous)</h2>
-      <p>We provide a cost model: attacker must acquire stake $S_c$ to control $f$ fraction of validators. Cost $\approx S_c \cdot \text{market\_price(MIX)}$. Combined with L1 reorg probability, expected attack cost is astronomical under conservative decentralization assumptions. Appendix A contains formal reductions and game-theoretic payoff tables.</p>
-    </section>
+      <section id="section-5">
+        <h2>Section 5 — Security Model</h2>
+        
+        <h3>5.1 Threat Taxonomy, Cost of Collusion, and L1 Enforcement</h3>
+        <p>The protocol defends against Sybil farming and validator collusion. The **cost of collusion** $C_{collusion}$ must exceed the potential gain $G$: $C_{collusion} = S_c \cdot P_{MIX} + C_{slashing} > G$. L1 anchoring provides an external economic barrier against forgery.</p>
+        
+        <h3>5.2 Sybil Resistance</h3>
+        <p>The Sybil inflation cost is modeled by:</p>
+        <div class="formula-block">$$ C_{sybil}(n) = n \cdot C_{device} + \lambda \cdot P_{flagging} $$</div>
+        
+        <h3>5.4 Checkpoint Security</h3>
+        <p>
+          The adversary must break both the PoPP layer and the L1 chain finality.
+        </p>
+        <div class="formula-block">$$ P_{false} = P_{cv\_collusion} \times P_{L1\_reorg} \approx 0 $$</div>
+        
+        <h3>5.5 Sampling Theorem and Detection Bounds</h3>
+        <p>To detect a faulty fraction \(f\) with confidence \(\alpha\), Cluster Nodes select a sample size \(m\):</p>
+        <div class="formula-block">$$ m \geq \frac{\ln(1-\alpha)}{\ln(1-f)} $$</div>
+      </section>
 
-    <section id="section-12">
-      <h2>12. Self-Recovery & Emergency Governance</h2>
-      <p>Recovery primitives: Merkle proof replay against last anchored CP, forensic audit tools to replay disputed epochs, and timelocked governance transitions. Rollback is deterministic and limited to the unanchored epoch range only.</p>
-    </section>
+      <section id="section-6">
+        <h2>Section 6 — Tokenomics (Economic Model)</h2>
+        
+        <h3>6.1 Token Overview</h3>
+        <ul>
+          <li><strong>Symbol:</strong> MIX</li>
+          <li><strong>Total Supply:</strong> 1,000,000,000 MIX (Fixed)</li>
+        </ul>
 
-    <section id="section-13">
-      <h2>13. Operational Cost Model & 5-Year Projection</h2>
-      <p>Concrete spreadsheets available in Appendix B. Conservative assumptions: MIX price stability at conservative levels, 50% YoY node growth, emission decay \(k=0.18\). Validator ROI and break-even analysis are included.</p>
-    </section>
+        <h3>6.2 Discrete Emission Derivation and Epoch Reward Calculation</h3>
+        <p>The continuous emission formula $R(t) = R_0 \cdot e^{-k t}$ serves as the theoretical base. For discrete, epoch-based issuance, the initial reward per epoch (\(R_{epoch, 1}\)) is calculated by dividing the first year's emission ($R_1$) by the total number of epochs in the year ($E_{year}$).</p>
+        <div class="formula-block">$$ R_{epoch, Y} = \frac{M \cdot k \cdot e^{-k(Y-1)}}{E_{year}} $$</div>
+        
+        <h3>6.3 Distribution Breakdown (Summary)</h3>
+        <table class="wp-table">
+          <thead>
+            <tr>
+              <th>Category</th>
+              <th>Allocation</th>
+              <th>Amount (MIX)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Community & Mining Rewards</td>
+              <td>45%</td>
+              <td>450,000,000</td>
+            </tr>
+            <tr>
+              <td>Ecosystem & App Growth</td>
+              <td>20%</td>
+              <td>200,000,000</td>
+            </tr>
+            <tr>
+              <td>Team & Core Contributors</td>
+              <td>15%</td>
+              <td>150,000,000</td>
+            </tr>
+            <tr>
+              <td>Marketing & Partnerships</td>
+              <td>10%</td>
+              <td>100,000,000</td>
+            </tr>
+            <tr>
+              <td>Liquidity & Reserve Pool</td>
+              <td>10%</td>
+              <td>100,000,000</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
 
-    <section id="section-14">
-      <h2>14. API & Developer Appendix</h2>
-      <pre>
-POST /v1/register  -> { uid, pubkey, region }
-POST /v1/pulse     -> { uid, epoch, sig, payload }
-GET  /v1/balance   -> { uid }
-GET  /v1/proof/:id -> merkle proof JSON
-POST /v1/report    -> anomaly payload
-      </pre>
-      <p>Pseudocode for CL sampling and MB assembly is in Appendix C and is suitable for direct implementation.</p>
-    </section>
+      <section id="section-7">
+        <h2>Section 7 — Economic Incentives</h2>
+        
+        <h3>7.1 Mobile Node Incentives</h3>
+        <p>
+          Mobile nodes (Linked Nodes – LN) receive rewards based on pulse participation and epoch consistency.
+        </p>
+        <div class="formula-block">$$ R_{i,e} = \frac{R_{epoch}}{N_{active}} \times W_i $$</div>
+        <p>Where \(W_i\) is the participation weight factor.</p>
 
-    <section id="section-15">
-      <h2>15. Launch Plan & Milestones</h2>
-      <ol>
-        <li>MVP (0–3 months): Core ledger + Android LN app</li>
-        <li>Testnet Alpha (3–9 months): PoPP tuning, 1k–10k LNs</li>
-        <li>Public Testnet (9–15 months): performance audits, multi-region CLs</li>
-        <li>Mainnet (15–24 months): CORE genesis, L1 anchoring active</li>
-        <li>Ecosystem Scale (24–60 months): DePIN integration, optional QPU support</li>
-      </ol>
-    </section>
+        <h3>7.2 Validator Incentives</h3>
+        <p>Cluster and Core Validators stake MIX and receive:</p>
+        <div class="formula-block">$$ ROI = \frac{R_{cv} \cdot P_{MIX} - C_{oper}}{C_{oper}} $$</div>
+      </section>
 
-    <section id="section-16">
-      <h2>16. Appendices</h2>
-      <h3>Appendix A — Sampling lemma</h3>
-      <p>Under uniform random sampling, probability that m samples miss a faulty fraction f equals $(1-f)^m$. Proof in extended PDF.</p>
+      <section id="section-8">
+        <h2>Section 8 — Governance Framework</h2>
+        
+        <h3>8.1 Governance Participants</h3>
+        <ul>
+            <li><strong>Node Operators:</strong> Vote based on activity score.</li>
+            <li><strong>Team:</strong> Vested holders.</li>
+            <li><strong>Ecosystem Council:</strong> Selected advisors reviewing proposals.</li>
+        </ul>
 
-      <h3>Appendix B — Emission tables</h3>
-      <p>Epoch-level and annual emission CSV files are provided with the repo. Example first-year emission: 90,000,000 MIX (see full table).</p>
+        <h3>8.3 Emergency Governance</h3>
+        <p>
+          <strong>Checkpoint Override:</strong> A multisig quorum of 5-of-7 CORE nodes can pause rewards if major fraud is detected.
+        </p>
+      </section>
 
-      <h3>Appendix C — Pseudocode</h3>
-      <pre>
-function assemble_MB(ld_batch):
-  verify_signatures(ld_batch)
-  compute_merkle_root(ld_batch.pulses)
-  attach_ld_meta()
-  broadcast_to_CL()
-      </pre>
-    </section>
+      <section id="section-9">
+        <h2>Section 9 — Network Scaling Strategy: Sharding and Micro-Block Constraints</h2>
+        
+        <h3>9.1 Scaling through Sharding Domains and Hierarchical Aggregation</h3>
+        <p>The network scales horizontally by defining **sharding domains** based on geographic region, managed by distinct Cluster Node sets (CLs). This allows independent processing of Pulse data in parallel, avoiding global bottlenecks.</p>
+        <div class="formula-block">$$ N_{max} = N_{CORE} \cdot 1000_{CL} \cdot 1000_{LD} = 1 \text{ Billion Nodes} $$</div>
+        
+        <h3>9.2 Micro-Block (MB) Capacity and Verification</h3>
+        <p>Micro-Blocks are capped at $10^3$ pulses (approx. 1MB compressed) to maintain verification speed. CL verification CPU cost scales as \(O(m)\) per MB (where $m$ is the sample size).</p>
+        <div class="formula-block">$$ m \geq \frac{\ln(1-\alpha)}{\ln(1-f)} $$</div>
+      </section>
 
-  </main>
-</div>
+      <section id="section-10">
+        <h2>Section 10 — Tokenomics & Allocation Details</h2>
+        
+        <h3>10.3 Vesting Schedule</h3>
+        <p><strong>Team & Contributors (15%):</strong></p>
+        <ul>
+            <li>Cliff period: 12 months</li>
+            <li>Linear vesting: 36–48 months</li>
+        </ul>
+        <div class="formula-block">$$ R_{monthly} = \frac{150,000,000}{36} \approx 4,166,667 \text{ MIX/month} $$</div>
+        
+        <h3>10.4 Emission Control Formula</h3>
+        <p>Reward per node formula detailed:</p>
+        <div class="formula-block">$$ R_{node,epoch} = \frac{R_{epoch}}{N_{active}} \times W_{activity} $$</div>
+        <div class="formula-block">$$ R_i = \sum_{e=1}^{t} R_{node,e} $$</div>
+      </section>
+
+      <section id="section-11">
+        <h2>Section 11 — Security Analysis</h2>
+        
+        <h3>11.2 Attack Probability Models</h3>
+        <p><strong>Validator Collusion:</strong> Maximum tolerated fraction \(f_{max} < 1/3\) of total CL nodes.</p>
+        <p><strong>Checkpoint Tampering:</strong></p>
+        <div class="formula-block">$$ P_{false\_checkpoint} = P_{collusion} \times P_{L1\_reorg} \approx 0 $$</div>
+        
+        <h3>11.3 Slashing</h3>
+        <div class="formula-block">$$ S_{penalty} = s_{stake} \times f_{misbehavior} $$</div>
+        
+        <h3>11.4 Quantum-Resistant Measures</h3>
+        <p>Hybrid signatures: ECDSA + Dilithium.</p>
+      </section>
+
+      <section id="section-12">
+        <h2>Section 12 — Self-Recovery & Emergency Governance</h2>
+        
+        <h3>12.1 Offline Node Recovery</h3>
+        <p>If LNs are offline ≤ 3h: cached pulses accepted via Merkle proof replay.</p>
+
+        <h3>12.2 Spike Detection & Adaptive Quorum</h3>
+        <div class="formula-block">$$ \Delta_{activity} = |N_{active} - N_{expected}| $$</div>
+        <p>If \(\Delta_{activity} > \theta\), quorum threshold temporarily raised by +20%.</p>
+      </section>
+
+      <section id="section-13">
+        <h2>Section 13 — Operational Cost Model & 5-Year Projection</h2>
+        
+        <h3>13.1 Node Operational Costs</h3>
+        <table class="wp-table">
+            <thead>
+                <tr>
+                    <th>Node Type</th>
+                    <th>Specs</th>
+                    <th>Bandwidth</th>
+                    <th>Monthly Cost (USD)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Linked Node (LN)</td>
+                    <td>Mobile</td>
+                    <td>100 KB/hour</td>
+                    <td>0.50</td>
+                </tr>
+                <tr>
+                    <td>Leader Node (LD)</td>
+                    <td>0.5 core, 32MB</td>
+                    <td>1 MB/hour</td>
+                    <td>50</td>
+                </tr>
+                <tr>
+                    <td>Cluster Node (CL)</td>
+                    <td>2 cores, 256MB</td>
+                    <td>50 MB/hour</td>
+                    <td>500</td>
+                </tr>
+                <tr>
+                    <td>Core Node (CORE)</td>
+                    <td>8 cores, 2GB</td>
+                    <td>200 MB/hour</td>
+                    <td>1,500–2,500</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>13.2 Reward vs. Cost Analysis</h3>
+        <div class="formula-block">$$ ROI = \frac{R_{node} \cdot P_{MIX} - C_{oper}}{C_{oper}} $$</div>
+        <p>Expected ROI for CORE nodes: 15–25% annually at minimum efficiency.</p>
+        
+        <h3>13.3 Five-Year Financial Projection (Summary)</h3>
+        <table class="wp-table">
+            <thead>
+                <tr>
+                    <th>Year</th>
+                    <th>Node Rewards (MIX)</th>
+                    <th>Node Rewards (USD)</th>
+                    <th>Remaining Supply</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>90,000,000</td>
+                    <td>9,000,000</td>
+                    <td>360,000,000</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>73,800,000</td>
+                    <td>7,380,000</td>
+                    <td>286,200,000</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>60,492,000</td>
+                    <td>6,049,200</td>
+                    <td>225,708,000</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>40,674,820</td>
+                    <td>4,067,482</td>
+                    <td>135,429,740</td>
+                </tr>
+            </tbody>
+        </table>
+      </section>
+
+      <section id="section-14">
+        <h2>Section 14 — API & Developer Appendix</h2>
+        
+        <h3>14.1 Core API Endpoints</h3>
+        <div class="formula-block">POST /register       - Register a new mobile node
+POST /pulse          - Submit pulse data
+GET  /balance        - Fetch node MIX balance
+GET  /proof/{id}     - Retrieve Merkle proof
+POST /report         - Submit anomalies</div>
+        
+        <h3>14.3 Pseudocode Example — Pulse Verification</h3>
+        <div class="formula-block">def verify_pulse(pulse, expected_epoch):
+    if pulse.epoch_id != expected_epoch:
+        return False
+    if not verify_signature(pulse.signature, pulse.device_hash):
+        return False
+    return True</div>
+      </section>
+
+      <section id="section-15">
+        <h2>Section 15 — Launch Plan</h2>
+        <table class="wp-table">
+            <thead>
+                <tr>
+                    <th>Phase</th>
+                    <th>Duration</th>
+                    <th>Milestone</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>MVP</td>
+                    <td>3 months</td>
+                    <td>Backend + minimal Android app</td>
+                </tr>
+                <tr>
+                    <td>Testnet</td>
+                    <td>6 months</td>
+                    <td>1k users, PoPP validation</td>
+                </tr>
+                <tr>
+                    <td>Expansion</td>
+                    <td>9–12 months</td>
+                    <td>10k users, first Core nodes</td>
+                </tr>
+                <tr>
+                    <td>Mainnet</td>
+                    <td>12–18 months</td>
+                    <td>CORE genesis, L1 anchoring</td>
+                </tr>
+                <tr>
+                    <td>Ecosystem</td>
+                    <td>2–5 years</td>
+                    <td>1B mobile nodes, DePIN integration</td>
+                </tr>
+            </tbody>
+        </table>
+      </section>
+
+      <section id="section-16">
+        <h2>Section 16 — Appendices</h2>
+        <h3>16.1 Sample Size Calculation</h3>
+        <p>Example: \(f=0.1, \alpha=0.999 \Rightarrow m \approx 66\)</p>
+        <div class="formula-block">$$ m \geq \frac{\ln(1-\alpha)}{\ln(1-f)} $$</div>
+        
+        <h3>16.3 Glossary</h3>
+        <ul>
+            <li><strong>LN:</strong> Linked Node (mobile device)</li>
+            <li><strong>LD:</strong> Leader Node</li>
+            <li><strong>PoPP:</strong> Proof of Pulse & Participation</li>
+        </ul>
+      </section>
+
+    </main>
+  </div>
+
+  <footer>
+    © 2025 Miyagi X Pulse — Quantum Blockchain Network
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const sections = document.querySelectorAll('section');
+      const navLinks = document.querySelectorAll('.toc-link');
+
+      window.addEventListener('scroll', () => {
+        let current = '';
+        
+        sections.forEach(section => {
+          const sectionTop = section.offsetTop;
+          const sectionHeight = section.clientHeight;
+          // Trigger highlight slightly before the section hits top
+          if (scrollY >= (sectionTop - 150)) {
+            current = section.getAttribute('id');
+          }
+        });
+
+        navLinks.forEach(link => {
+          link.classList.remove('active');
+          if (link.getAttribute('href').includes(current)) {
+            link.classList.add('active');
+          }
+        });
+      });
+    });
+  </script>
+
 </body>
 </html>
