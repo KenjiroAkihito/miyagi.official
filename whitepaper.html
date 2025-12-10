@@ -10,8 +10,6 @@
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
   <style>
     /* --- CORE THEME --- */
     * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
@@ -21,6 +19,7 @@
       background: #000;
       color: #e3e7eb;
       line-height: 1.7;
+      /* Subtle gradient background only at top */
       background-image: linear-gradient(rgba(0,0,0,0.8), #000), url("assets/background.jpg");
       background-repeat: no-repeat;
       background-size: 100% 600px;
@@ -28,106 +27,173 @@
 
     /* --- NAVBAR --- */
     header {
-      display: flex; justify-content: space-between; align-items: center;
-      background: rgba(10, 12, 16, 0.95); padding: 0 40px; height: 80px;
-      position: fixed; top: 0; width: 100%; z-index: 1000;
-      backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255,255,255,0.06);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(10, 12, 16, 0.95);
+      padding: 0 40px;
+      height: 80px;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
     }
 
     .logo {
-      font-size: 1.4em; font-weight: 700; color: #42caff; text-decoration: none;
-      letter-spacing: 0.5px; margin-right: 20px;
+      font-size: 1.4em;
+      font-weight: 700;
+      color: #42caff;
+      text-decoration: none;
+      letter-spacing: 0.5px;
+      margin-right: 20px;
     }
 
     nav { display: flex; align-items: center; gap: 25px; height: 100%; }
-    nav > a { text-decoration: none; color: #b8c2cc; font-weight: 500; font-size: 0.9em; transition: 0.2s; }
+    
+    nav > a {
+      text-decoration: none;
+      color: #b8c2cc;
+      font-weight: 500;
+      font-size: 0.9em;
+      transition: 0.2s;
+    }
     nav > a:hover { color: #42caff; }
-    .nav-cta { background: #42caff; color: #000 !important; padding: 8px 20px; border-radius: 6px; font-weight: 600; }
+
+    .nav-cta {
+      background: #42caff;
+      color: #000 !important;
+      padding: 8px 20px;
+      border-radius: 6px;
+      font-weight: 600;
+    }
     .nav-cta:hover { background: #63d7ff; }
 
     /* --- PAGE LAYOUT --- */
     .container {
-      max-width: 1200px; margin: 120px auto 80px; padding: 0 20px;
-      display: grid; grid-template-columns: 280px 1fr; gap: 60px;
+      max-width: 1200px;
+      margin: 120px auto 80px;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: 280px 1fr; /* Sidebar + Content */
+      gap: 60px;
     }
 
     /* --- SIDEBAR TOC --- */
     aside {
-      position: sticky; top: 120px; height: fit-content;
-      border-right: 1px solid rgba(255,255,255,0.05); padding-right: 20px;
-      max-height: 80vh; overflow-y: auto;
+      position: sticky;
+      top: 120px; /* Space from top of screen */
+      height: fit-content;
+      border-right: 1px solid rgba(255,255,255,0.05);
+      padding-right: 20px;
+      max-height: 80vh;
+      overflow-y: auto;
     }
+
+    aside h4 {
+      color: #fff;
+      margin-bottom: 20px;
+      font-size: 0.9em;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .toc-link {
+      display: block;
+      color: #7a8590;
+      text-decoration: none;
+      font-size: 0.85em;
+      margin-bottom: 10px;
+      transition: 0.2s;
+      padding-left: 10px;
+      border-left: 2px solid transparent;
+      cursor: pointer;
+    }
+
+    .toc-link:hover, .toc-link.active {
+      color: #42caff;
+      border-left-color: #42caff;
+    }
+
+    /* Scrollbar for sidebar */
     aside::-webkit-scrollbar { width: 4px; }
     aside::-webkit-scrollbar-thumb { background: #333; border-radius: 2px; }
 
-    aside h4 { color: #fff; margin-bottom: 20px; font-size: 0.9em; text-transform: uppercase; letter-spacing: 1px; }
-
-    .toc-link {
-      display: block; color: #7a8590; text-decoration: none; font-size: 0.85em;
-      margin-bottom: 10px; transition: 0.2s; padding-left: 10px;
-      border-left: 2px solid transparent; cursor: pointer;
-    }
-    .toc-link:hover, .toc-link.active { color: #42caff; border-left-color: #42caff; }
-
     /* --- MAIN CONTENT --- */
     main {
-      background: rgba(14, 17, 22, 0.4); padding: 40px; border-radius: 8px;
+      background: rgba(14, 17, 22, 0.4);
+      padding: 40px;
+      border-radius: 8px;
       border: 1px solid rgba(255,255,255,0.03);
     }
 
     /* FIX: Scroll Margin prevents header from covering titles */
-    section { scroll-margin-top: 100px; margin-bottom: 60px; }
+    section {
+        scroll-margin-top: 100px;
+    }
 
     h1 { font-size: 2.4em; font-weight: 700; color: #fff; margin-bottom: 10px; }
     .version { color: #42caff; font-family: monospace; font-size: 0.9em; display: block; margin-bottom: 40px; }
 
     h2 { 
-      font-size: 1.8em; color: #fff; margin-bottom: 25px; padding-bottom: 10px;
+      font-size: 1.8em; 
+      color: #fff; 
+      margin-top: 60px; 
+      margin-bottom: 25px; 
+      padding-bottom: 10px;
       border-bottom: 1px solid rgba(255,255,255,0.1);
     }
+
     section:first-of-type h2 { margin-top: 0; }
+
     h3 { font-size: 1.3em; color: #42caff; margin-top: 40px; margin-bottom: 15px; }
+
     p { margin-bottom: 20px; color: #cbd5df; text-align: justify; }
+
     ul, ol { margin-bottom: 20px; padding-left: 25px; color: #cbd5df; }
-    li { margin-bottom: 8px; }
+    li { margin-bottom: 10px; }
 
     /* Code/Math block style */
     .formula-block {
-      background: rgba(0,0,0,0.3); padding: 20px; border-left: 3px solid #42caff;
-      font-family: 'Courier New', monospace; color: #aebbc9; margin: 25px 0;
-      overflow-x: auto; white-space: pre-wrap; font-size: 0.95em;
+      background: rgba(0,0,0,0.3);
+      padding: 20px;
+      border-left: 3px solid #42caff;
+      font-family: 'Courier New', monospace;
+      color: #aebbc9;
+      margin: 25px 0;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      font-size: 0.95em;
     }
 
     /* Table Styles */
     .wp-table {
-      width: 100%; border-collapse: collapse; margin: 30px 0;
-      background: rgba(255,255,255,0.02); border-radius: 6px; overflow: hidden;
-    }
-    .wp-table th {
-      text-align: left; padding: 15px 20px; background: rgba(66, 202, 255, 0.1);
-      color: #42caff; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.9em;
-    }
-    .wp-table td {
-      padding: 15px 20px; border-bottom: 1px solid rgba(255,255,255,0.03);
-      color: #cbd5df; font-size: 0.9em;
-    }
-    .wp-table tr:last-child td { border-bottom: none; }
-
-    /* --- CHART CONTAINERS --- */
-    .chart-wrapper {
-      background: rgba(0,0,0,0.3);
-      border: 1px solid rgba(255,255,255,0.05);
-      border-radius: 8px;
-      padding: 20px;
-      margin: 30px 0;
-    }
-    .chart-wrapper canvas {
-      max-height: 400px;
       width: 100%;
+      border-collapse: collapse;
+      margin: 30px 0;
+      background: rgba(255,255,255,0.02);
+      border-radius: 6px;
+      overflow: hidden;
     }
-    .chart-caption {
-      text-align: center; font-size: 0.85em; color: #7a8590; margin-top: 15px;
+    
+    .wp-table th {
+      text-align: left;
+      padding: 15px 20px;
+      background: rgba(66, 202, 255, 0.1);
+      color: #42caff;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      font-size: 0.9em;
     }
+
+    .wp-table td {
+      padding: 15px 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+      color: #cbd5df;
+      font-size: 0.9em;
+    }
+    
+    .wp-table tr:last-child td { border-bottom: none; }
 
     @media (max-width: 900px) {
       .container { grid-template-columns: 1fr; }
@@ -163,7 +229,7 @@
       <a href="#section-7" class="toc-link">7. Economic Incentives</a>
       <a href="#section-8" class="toc-link">8. Governance</a>
       <a href="#section-9" class="toc-link">9. Scaling Strategy</a>
-      <a href="#section-10" class="toc-link">10. Allocation Details</a>
+      <a href="#section-10" class="toc-link">10. Tokenomics (Allocation)</a>
       <a href="#section-11" class="toc-link">11. Security Analysis</a>
       <a href="#section-12" class="toc-link">12. Self-Recovery</a>
       <a href="#section-13" class="toc-link">13. Operational Cost</a>
@@ -178,150 +244,255 @@
 
       <section id="section-1">
         <h2>Section 1 — Executive Summary</h2>
-        <p>Miyagi X Pulse (MXP) is a hybrid distributed ledger system designed to support high-scale mobile participation through an energy-efficient consensus model known as <strong>Proof of Pulse and Participation (PoPP)</strong>.</p>
-        <p>MXP enables millions of smartphones to act as lightweight nodes contributing secure activity proofs (“pulses”) at fixed intervals, aggregated into regional Micro-Blocks and finalized into global Pulse Blocks anchored to a major Layer-1 blockchain.</p>
-        <p>The result is a decentralized economic engine built on verifiable mobile participation, hybrid cryptographic anchoring, multi-layer validation, and a governance structure optimized for long-term evolution.</p>
+        <p>
+          Miyagi X Pulse (MXP) is a hybrid distributed ledger system designed to support high-scale mobile participation through an energy-efficient consensus model known as <strong>Proof of Pulse and Participation (PoPP)</strong>. Rather than relying on high-performance hardware or traditional proof-of-work computation, MXP enables millions of smartphones to act as lightweight nodes contributing secure activity proofs (“pulses”) at fixed intervals.
+        </p>
+        <p>
+          These pulses are aggregated into regional Micro-Blocks and finalized into global Pulse Blocks, which are periodically anchored to a major Layer-1 blockchain. This hybrid architecture combines the scalability and low operational requirements of a mobile-first network with the security guarantees of an established L1 chain.
+        </p>
+        <p>
+          MXP introduces a mathematically governed emission schedule, long-term sustainability mechanisms, and a token distribution strategy designed to support both community participation and structured ecosystem growth. The system ensures that 45% of total supply is allocated directly to mobile miners, providing transparent, predictable, and auditable distribution over multiple years.
+        </p>
       </section>
 
       <section id="section-2">
         <h2>Section 2 — System Overview</h2>
+        
         <h3>2.1 Network Layers</h3>
         <p>MXP is structured into three functional layers:</p>
         <ul>
-          <li><strong>Pulse Layer (Mobile Layer):</strong> Smartphones send periodic pulses.</li>
-          <li><strong>Consensus Layer:</strong> Hierarchical proof network. Leaders aggregate ~1,000 pulses; Cluster Nodes build Micro-Blocks; Core Nodes finalize global Pulse Blocks.</li>
-          <li><strong>Anchoring Layer:</strong> The finalized Pulse Block root hash is committed to a major Layer-1 blockchain at fixed intervals (every 12 epochs).</li>
+          <li><strong>Pulse Layer (Mobile Layer):</strong> Smartphones send periodic pulses (activity proofs) containing timestamped device attestations and cryptographic signatures.</li>
+          <li><strong>Consensus Layer (Leader/Cluster/Core Nodes):</strong> A hierarchical proof network. Leaders aggregate ~1,000 pulses; Cluster Nodes build Micro-Blocks; Core Nodes finalize global Pulse Blocks.</li>
+          <li><strong>Anchoring Layer (Hybrid Finality):</strong> The finalized Pulse Block root hash is committed to a major Layer-1 blockchain at fixed intervals (every 12 epochs).</li>
         </ul>
 
         <h3>2.2 Data Structures</h3>
-        <p>Core data structures include:</p>
+        <p>MXP uses the following core data structures:</p>
         <ul>
-          <li><strong>Pulse (P):</strong> Timestamped device attestation.</li>
-          <li><strong>Micro-Block (MB):</strong> Merkle tree of regional pulses.</li>
-          <li><strong>Pulse Block (PB):</strong> Global consolidated structure.</li>
+          <li><strong>Pulse (P):</strong> Contains uid, epoch, device hash, metadata, and cryptographic signature.</li>
+          <li><strong>Micro-Block (MB):</strong> A Merkle tree of pulses from a single region.</li>
+          <li><strong>Pulse Block (PB):</strong> A consolidated structure containing Merkle roots of all Micro-Blocks.</li>
+          <li><strong>Checkpoint (CP):</strong> A hash commitment stored on the anchoring L1 chain.</li>
         </ul>
+
+        <h3>2.3 Epoch Structure</h3>
+        <p>MXP uses fixed 1-hour epochs. This supports statistical predictability in the emission schedule and simplifies reward accounting.</p>
       </section>
 
       <section id="section-3">
         <h2>Section 3 — Hybrid Pulse Architecture</h2>
-        <h3>3.1 Pulse Generation</h3>
+        
+        <h3>3.1 Pulse Generation and Validation</h3>
         <p>Every Linked Node (LN) generates a pulse defined as:</p>
         <div class="formula-block">P = { uid, epoch_id, timestamp, device_hash, region_id, metadata, signature }</div>
-        <p>Signature computation:</p>
+        <p>Where the signature is computed using:</p>
         <div class="formula-block">sig = Sign(private_key, H(uid ∥ epoch_id ∥ timestamp ∥ device_hash))</div>
         
         <h3>3.5 Checkpoint Commitment</h3>
         <div class="formula-block">Compute global_root = MerkleRoot(PulseBlock)
 Compute ledger_root = MerkleRoot(reward_ledger)
+Compute combined_hash = H(global_root ∥ ledger_root ∥ epoch_range)
 Sign combined_hash using CORE quorum
 Submit CP to the anchoring L1 chain</div>
       </section>
 
       <section id="section-4">
         <h2>Section 4 — Consensus Mechanism</h2>
-        <h3>4.1 Overview</h3>
-        <p>Miyagi X Pulse introduces <strong>Proof of Pulse & Participation (PoPP)</strong>, a lightweight consensus mechanism optimized for mobile-first decentralized networks.</p>
         
+        <h3>4.1 Overview</h3>
+        <p>
+          Miyagi X Pulse introduces <strong>Proof of Pulse & Participation (PoPP)</strong>, a lightweight consensus mechanism optimized for mobile-first decentralized networks.
+        </p>
+
         <h3>4.2 Pulse Epoch Structure</h3>
-        <p>Time is divided into 6-hour Pulse Epochs (PE). Active MPNs generate a pulse:</p>
+        <p>
+          Time in the network is divided into Pulse Epochs (PE). Each epoch lasts <code>t = 6 hours</code> by protocol specification. During each epoch, active MPNs generate a cryptographic pulse:
+        </p>
         <div class="formula-block">$$ P_i = H(UID_i \parallel T_e \parallel S_i) $$</div>
-        <p>Cluster Validators aggregate pulses using a Merkle accumulator:</p>
+        <p>Where \(UID_i\) is the anonymous user identifier, \(T_e\) is timestamp, and \(S_i\) is device state entropy.</p>
+        <p>Cluster Validators then aggregate pulses using a Merkle accumulator:</p>
         <div class="formula-block">$$ M_e = MerkleRoot(P_1, P_2, ..., P_n) $$</div>
+
+        <h3>4.3 Leader Selection</h3>
+        <p>Leader selection uses a deterministic VRF:</p>
+        <div class="formula-block">$$ L_e = VRF( SK_{cv}, H(M_e \parallel T_e ) ) $$</div>
+        
+        <h3>4.4 Finality Model</h3>
+        <ul>
+            <li><strong>Soft Finality:</strong> 1-2 seconds (Pulse Layer).</li>
+            <li><strong>Hard Finality:</strong> Anchoring to L1 every 4-12 hours.</li>
+        </ul>
       </section>
 
       <section id="section-5">
         <h2>Section 5 — Security Model</h2>
+        
         <h3>5.2 Sybil Resistance</h3>
         <p>The Sybil inflation cost is modeled by:</p>
         <div class="formula-block">$$ C_{sybil}(n) = n \cdot C_{device} + \lambda \cdot P_{flagging} $$</div>
         
         <h3>5.4 Checkpoint Security</h3>
-        <p>Adversaries must break both the PoPP layer and the L1 chain finality.</p>
+        <p>
+          Each checkpoint anchors the state root on a parent chain. The adversary must break both the PoPP layer and the L1 chain finality.
+        </p>
         <div class="formula-block">$$ P_{false} = P_{cv\_collusion} \times P_{L1\_reorg} \approx 0 $$</div>
       </section>
 
       <section id="section-6">
         <h2>Section 6 — Tokenomics (Economic Model)</h2>
+        
         <h3>6.1 Token Overview</h3>
         <ul>
           <li><strong>Symbol:</strong> MXP</li>
-          <li><strong>Total Supply:</strong> 1,000,000,000 MXP (Fixed Cap)</li>
+          <li><strong>Total Supply:</strong> 1,000,000,000 MXP (Fixed)</li>
         </ul>
 
-        <h3>6.2 Distribution Breakdown</h3>
-        <p>The total supply is strictly fixed. The chart below illustrates the allocation, emphasizing our commitment to community mining (45%).</p>
-        
-        <div class="chart-wrapper">
-          <canvas id="distributionChart"></canvas>
-          <div class="chart-caption">Figure 6.1: MXP Token Allocation Strategy</div>
-        </div>
+        <h3>6.2 Distribution Breakdown (Summary)</h3>
+        <table class="wp-table">
+          <thead>
+            <tr>
+              <th>Category</th>
+              <th>Allocation</th>
+              <th>Amount (MXP)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Community & Mining Rewards</td>
+              <td>45%</td>
+              <td>450,000,000</td>
+            </tr>
+            <tr>
+              <td>Ecosystem & App Growth</td>
+              <td>20%</td>
+              <td>200,000,000</td>
+            </tr>
+            <tr>
+              <td>Team & Core Contributors</td>
+              <td>15%</td>
+              <td>150,000,000</td>
+            </tr>
+            <tr>
+              <td>Marketing & Partnerships</td>
+              <td>10%</td>
+              <td>100,000,000</td>
+            </tr>
+            <tr>
+              <td>Liquidity & Reserve Pool</td>
+              <td>10%</td>
+              <td>100,000,000</td>
+            </tr>
+          </tbody>
+        </table>
 
         <h3>6.5 Reward Emission Formula</h3>
-        <p>Mining rewards follow a diminishing-return model (similar to Halving):</p>
+        <p>Mining rewards follow a diminishing-return model:</p>
         <div class="formula-block">$$ R_t = R_0 \times e^{-kt} $$</div>
-        <p>Where \(k = 0.18\) is the annual decay factor.</p>
+        <p>Where \(k = 0.18\) annual decay factor.</p>
       </section>
 
       <section id="section-7">
         <h2>Section 7 — Economic Incentives</h2>
-        <h3>7.1 Mobile Node Incentives</h3>
-        <p>Mobile nodes receive rewards based on pulse participation:</p>
-        <div class="formula-block">$$ R_{i,e} = \frac{R_{epoch}}{N_{active}} \times W_i $$</div>
         
+        <h3>7.1 Mobile Node Incentives</h3>
+        <p>
+          Mobile nodes (Linked Nodes – LN) receive rewards based on pulse participation and epoch consistency.
+        </p>
+        <div class="formula-block">$$ R_{i,e} = \frac{R_{epoch}}{N_{active}} \times W_i $$</div>
+        <p>Where \(W_i\) is the weight factor reflecting uptime, history, and regional diversity.</p>
+
         <h3>7.2 Validator Incentives</h3>
-        <p>Validators stake MXP and receive:</p>
+        <p>Cluster and Core Validators stake MXP and receive:</p>
+        <div class="formula-block">$$ R_{cv} = \alpha \cdot R_{cluster} + \beta \cdot R_{core} $$</div>
+        
+        <p><strong>Expected ROI Calculation:</strong></p>
         <div class="formula-block">$$ ROI = \frac{R_{cv} \cdot P_{MXP} - C_{oper}}{C_{oper}} $$</div>
       </section>
 
       <section id="section-8">
         <h2>Section 8 — Governance Framework</h2>
         <p>MXP adopts a hybrid governance model combining on-chain voting and off-chain DAO oversight.</p>
+        
+        <h3>8.1 Governance Participants</h3>
         <ul>
-            <li><strong>Checkpoint Override:</strong> 5-of-7 CORE nodes can pause rewards if fraud is detected.</li>
-            <li><strong>Slashing:</strong> Malicious validators lose staked MXP.</li>
+            <li><strong>Node Operators:</strong> Vote based on activity score.</li>
+            <li><strong>Team:</strong> Vested holders.</li>
+            <li><strong>Ecosystem Council:</strong> Selected advisors reviewing proposals.</li>
         </ul>
+
+        <h3>8.3 Emergency Governance</h3>
+        <p>
+          <strong>Checkpoint Override:</strong> A multisig quorum of 5-of-7 CORE nodes can pause rewards if major fraud is detected.
+        </p>
       </section>
 
       <section id="section-9">
-        <h2>Section 9 — Scaling Strategy</h2>
-        <h3>9.1 Hierarchical Aggregation</h3>
-        <p>MXP scales to 1 billion nodes using a tiered structure:</p>
+        <h2>Section 9 — Network Scaling Strategy</h2>
+        
+        <h3>9.1 Hierarchical Node Aggregation</h3>
+        <p>
+          MXP is designed to scale from 1 million to 1 billion mobile nodes using hierarchical aggregation (LN → LD → CL → CORE).
+        </p>
         <div class="formula-block">$$ N_{max} = N_{CORE} \cdot 1000_{CL} \cdot 1000_{LD} = 1 \text{ Billion Nodes} $$</div>
+        
+        <h3>9.2 Sampling & Verification</h3>
+        <p>Cluster nodes use random sampling of pulses to validate batch integrity:</p>
+        <div class="formula-block">$$ m \geq \frac{\ln(1-\alpha)}{\ln(1-f)} $$</div>
       </section>
 
       <section id="section-10">
-        <h2>Section 10 — Allocation Details</h2>
+        <h2>Section 10 — Tokenomics & Allocation Details</h2>
+        
         <h3>10.3 Vesting Schedule</h3>
-        <p>Team tokens have a 12-month cliff and vest linearly over 48 months.</p>
+        <p><strong>Team & Contributors (15%):</strong></p>
+        <ul>
+            <li>Cliff period: 12 months</li>
+            <li>Linear vesting: 36–48 months</li>
+        </ul>
         <div class="formula-block">$$ R_{monthly} = \frac{150,000,000}{36} \approx 4,166,667 \text{ MXP/month} $$</div>
+        
+        <h3>10.4 Emission Control Formula</h3>
+        <p>Reward per node formula detailed:</p>
+        <div class="formula-block">$$ R_{node,epoch} = \frac{R_{epoch}}{N_{active}} \times W_{activity} $$</div>
+        <div class="formula-block">$$ R_i = \sum_{e=1}^{t} R_{node,e} $$</div>
       </section>
 
       <section id="section-11">
         <h2>Section 11 — Security Analysis</h2>
-        <h3>11.2 Attack Probability</h3>
+        
+        <h3>11.2 Attack Probability Models</h3>
+        <p><strong>Validator Collusion:</strong> Maximum tolerated fraction \(f_{max} < 1/3\) of total CL nodes.</p>
+        <p><strong>Checkpoint Tampering:</strong></p>
         <div class="formula-block">$$ P_{false\_checkpoint} = P_{collusion} \times P_{L1\_reorg} \approx 0 $$</div>
-        <h3>11.3 Slashing Formula</h3>
+        
+        <h3>11.3 Slashing</h3>
         <div class="formula-block">$$ S_{penalty} = s_{stake} \times f_{misbehavior} $$</div>
+        
+        <h3>11.4 Quantum-Resistant Measures</h3>
+        <p>Hybrid signatures: ECDSA + Dilithium.</p>
       </section>
 
       <section id="section-12">
-        <h2>Section 12 — Self-Recovery</h2>
+        <h2>Section 12 — Self-Recovery & Emergency Governance</h2>
+        
         <h3>12.1 Offline Node Recovery</h3>
         <p>If LNs are offline ≤ 3h: cached pulses accepted via Merkle proof replay.</p>
-        <h3>12.2 Spike Detection</h3>
+
+        <h3>12.2 Spike Detection & Adaptive Quorum</h3>
         <div class="formula-block">$$ \Delta_{activity} = |N_{active} - N_{expected}| $$</div>
-        <p>If deviation > θ, quorum threshold raised by +20%.</p>
+        <p>If \(\Delta_{activity} > \theta\), quorum threshold temporarily raised by +20%.</p>
       </section>
 
       <section id="section-13">
-        <h2>Section 13 — Operational Cost Model</h2>
+        <h2>Section 13 — Operational Cost Model & 5-Year Projection</h2>
         
-        <h3>13.1 Node Costs</h3>
+        <h3>13.1 Node Operational Costs</h3>
         <table class="wp-table">
             <thead>
                 <tr>
                     <th>Node Type</th>
                     <th>Specs</th>
+                    <th>Bandwidth</th>
                     <th>Monthly Cost (USD)</th>
                 </tr>
             </thead>
@@ -329,36 +500,90 @@ Submit CP to the anchoring L1 chain</div>
                 <tr>
                     <td>Linked Node (LN)</td>
                     <td>Mobile</td>
+                    <td>100 KB/hour</td>
                     <td>0.50</td>
+                </tr>
+                <tr>
+                    <td>Leader Node (LD)</td>
+                    <td>0.5 core, 32MB</td>
+                    <td>1 MB/hour</td>
+                    <td>50</td>
                 </tr>
                 <tr>
                     <td>Cluster Node (CL)</td>
                     <td>2 cores, 256MB</td>
-                    <td>500.00</td>
+                    <td>50 MB/hour</td>
+                    <td>500</td>
                 </tr>
                 <tr>
                     <td>Core Node (CORE)</td>
                     <td>8 cores, 2GB</td>
-                    <td>1,500+</td>
+                    <td>200 MB/hour</td>
+                    <td>1,500–2,500</td>
                 </tr>
             </tbody>
         </table>
 
-        <h3>13.3 Five-Year Reward Projection</h3>
-        <p>To ensure long-term value, rewards decrease annually. The chart below projects the emission schedule for the first 5 years.</p>
+        <h3>13.2 Reward vs. Cost Analysis</h3>
+        <div class="formula-block">$$ ROI = \frac{R_{node} \cdot P_{MXP} - C_{oper}}{C_{oper}} $$</div>
+        <p>Expected ROI for CORE nodes: 15–25% annually at minimum efficiency.</p>
         
-        <div class="chart-wrapper">
-          <canvas id="emissionChart"></canvas>
-          <div class="chart-caption">Figure 13.1: 5-Year Supply Emission Curve</div>
-        </div>
+        <h3>13.3 Five-Year Financial Projection (Summary)</h3>
+        <table class="wp-table">
+            <thead>
+                <tr>
+                    <th>Year</th>
+                    <th>Node Rewards (MXP)</th>
+                    <th>Node Rewards (USD)</th>
+                    <th>Remaining Supply</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>90,000,000</td>
+                    <td>9,000,000</td>
+                    <td>360,000,000</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>73,800,000</td>
+                    <td>7,380,000</td>
+                    <td>286,200,000</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>60,492,000</td>
+                    <td>6,049,200</td>
+                    <td>225,708,000</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>40,674,820</td>
+                    <td>4,067,482</td>
+                    <td>135,429,740</td>
+                </tr>
+            </tbody>
+        </table>
       </section>
 
       <section id="section-14">
         <h2>Section 14 — API & Developer Appendix</h2>
+        
         <h3>14.1 Core API Endpoints</h3>
         <div class="formula-block">POST /register       - Register a new mobile node
 POST /pulse          - Submit pulse data
-GET  /balance        - Fetch node MXP balance</div>
+GET  /balance        - Fetch node MXP balance
+GET  /proof/{id}     - Retrieve Merkle proof
+POST /report         - Submit anomalies</div>
+        
+        <h3>14.3 Pseudocode Example — Pulse Verification</h3>
+        <div class="formula-block">def verify_pulse(pulse, expected_epoch):
+    if pulse.epoch_id != expected_epoch:
+        return False
+    if not verify_signature(pulse.signature, pulse.device_hash):
+        return False
+    return True</div>
       </section>
 
       <section id="section-15">
@@ -383,6 +608,11 @@ GET  /balance        - Fetch node MXP balance</div>
                     <td>1k users, PoPP validation</td>
                 </tr>
                 <tr>
+                    <td>Expansion</td>
+                    <td>9–12 months</td>
+                    <td>10k users, first Core nodes</td>
+                </tr>
+                <tr>
                     <td>Mainnet</td>
                     <td>12–18 months</td>
                     <td>CORE genesis, L1 anchoring</td>
@@ -401,6 +631,13 @@ GET  /balance        - Fetch node MXP balance</div>
         <h3>16.1 Sample Size Calculation</h3>
         <p>Example: \(f=0.1, \alpha=0.999 \Rightarrow m \approx 66\)</p>
         <div class="formula-block">$$ m \geq \frac{\ln(1-\alpha)}{\ln(1-f)} $$</div>
+        
+        <h3>16.3 Glossary</h3>
+        <ul>
+            <li><strong>LN:</strong> Linked Node (mobile device)</li>
+            <li><strong>LD:</strong> Leader Node</li>
+            <li><strong>PoPP:</strong> Proof of Pulse & Participation</li>
+        </ul>
       </section>
 
     </main>
@@ -412,19 +649,21 @@ GET  /balance        - Fetch node MXP balance</div>
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      
-      // 1. Sidebar Highlight Logic
       const sections = document.querySelectorAll('section');
       const navLinks = document.querySelectorAll('.toc-link');
 
       window.addEventListener('scroll', () => {
         let current = '';
+        
         sections.forEach(section => {
           const sectionTop = section.offsetTop;
+          const sectionHeight = section.clientHeight;
+          // Trigger highlight slightly before the section hits top
           if (scrollY >= (sectionTop - 150)) {
             current = section.getAttribute('id');
           }
         });
+
         navLinks.forEach(link => {
           link.classList.remove('active');
           if (link.getAttribute('href').includes(current)) {
@@ -432,55 +671,6 @@ GET  /balance        - Fetch node MXP balance</div>
           }
         });
       });
-
-      // 2. Chart: Token Distribution (Doughnut)
-      const ctxDist = document.getElementById('distributionChart').getContext('2d');
-      new Chart(ctxDist, {
-        type: 'doughnut',
-        data: {
-          labels: ['Community Mining (45%)', 'Ecosystem (20%)', 'Team (15%)', 'Marketing (10%)', 'Liquidity (10%)'],
-          datasets: [{
-            data: [45, 20, 15, 10, 10],
-            backgroundColor: [
-              'rgba(66, 202, 255, 0.9)', 
-              'rgba(255, 255, 255, 0.2)',
-              'rgba(100, 100, 100, 0.5)',
-              'rgba(66, 202, 255, 0.3)',
-              'rgba(255, 255, 255, 0.1)'
-            ],
-            borderColor: '#000', borderWidth: 2
-          }]
-        },
-        options: {
-          responsive: true, maintainAspectRatio: false,
-          plugins: { legend: { position: 'right', labels: { color: '#b8c2cc' } } }
-        }
-      });
-
-      // 3. Chart: Emission Curve (Line)
-      const ctxEmis = document.getElementById('emissionChart').getContext('2d');
-      new Chart(ctxEmis, {
-        type: 'line',
-        data: {
-          labels: ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5'],
-          datasets: [{
-            label: 'Annual Rewards (MXP)',
-            data: [90000000, 73800000, 60492000, 49603440, 40674820],
-            borderColor: '#42caff',
-            backgroundColor: 'rgba(66, 202, 255, 0.15)',
-            fill: true, tension: 0.4, borderWidth: 3
-          }]
-        },
-        options: {
-          responsive: true, maintainAspectRatio: false,
-          scales: {
-            y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#7a8590' } },
-            x: { grid: { display: false }, ticks: { color: '#7a8590' } }
-          },
-          plugins: { legend: { labels: { color: '#b8c2cc' } } }
-        }
-      });
-
     });
   </script>
 
