@@ -31,7 +31,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: rgba(10, 12, 16, 0.9); /* Slightly darker for legibility */
+      background: rgba(10, 12, 16, 0.9);
       padding: 0 40px;
       height: 80px;
       position: fixed;
@@ -191,9 +191,9 @@
       color: #000;
     }
 
-    /* REST OF SITE STYLES (Existing) */
+    /* REST OF SITE STYLES */
     .hero {
-      padding: 180px 20px 80px; /* Increased top padding for taller header */
+      padding: 180px 20px 80px;
       max-width: 900px;
       margin: 0 auto;
       text-align: left;
@@ -220,9 +220,13 @@
     .divider { margin: 40px 0; height: 1px; background: rgba(255,255,255,0.07); }
     footer { margin-top: 120px; text-align: center; font-size: 0.85em; padding-bottom: 40px; color: #7a8590; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 30px; }
 
-    /* Arrow icon for dropdown */
     .arrow { font-size: 0.7em; margin-top: 2px; }
 
+    @media (max-width: 768px) {
+      header { padding: 15px 20px; }
+      nav { display: none; } /* Mobile Menu would go here */
+      h1 { font-size: 2.2em; }
+    }
   </style>
 </head>
 
@@ -247,7 +251,9 @@
           
           <div class="mm-links">
             <span>Explore</span>
-            <a href="#">Tokenomics</a>
+            
+            <a href="tokenomics.html">Tokenomics</a>
+            
             <a href="#">Team</a>
             <a href="whitepaper.html">Whitepaper</a>
             <a href="#">Litepaper</a>
@@ -272,20 +278,60 @@
     <h2>Engineered for the Pulse Age</h2>
     <p>
       Developed by <strong>Kenjiro Akihito Miyagi</strong>, Miyagi X Pulse introduces a 
-      resilient quantum-class blockchain architecture designed for global-scale connectivity.
+      resilient quantum-class blockchain architecture designed for global-scale connectivity 
+      and next-generation consensus integrity.
     </p>
+    <p>
+      The network transforms everyday devices into verified pulse nodes, enabling secure, fast, 
+      and decentralized communication infrastructure built for tomorrow’s digital systems.
+    </p>
+
     <a href="whitepaper.html" class="button">Read Whitepaper</a>
+    <a href="https://x.com/miyagixmix" class="button">Join Community</a>
   </div>
 
   <section id="vision">
     <h2>Our Vision</h2>
     <p>
       Miyagi X Pulse envisions a world where blockchain operates with the stability of natural 
-      energy systems.
+      energy systems. Inspired by bio-synchronization and quantum signal theory, the network is 
+      engineered to create transparent, fair, and self-adjusting digital ecosystems at scale.
     </p>
   </section>
 
   <div class="divider"></div>
+
+  <section id="technology">
+    <h2>Prime Mobile Pulse Node Technology</h2>
+    <p>
+      The Prime Mobile Pulse Node (PMPN) framework enables any modern smartphone to participate 
+      in network validation through the Proof of Pulse & Participation (PoPP) model.
+    </p>
+  </section>
+
+  <div class="divider"></div>
+
+  <section id="phase">
+    <h2>Current Phase — Genesis Test Network</h2>
+    <p>
+      The Genesis Testing Phase focuses on activation of the global Prime Mobile Pulse Node grid.
+      We are currently onboarding testers to shape governance frameworks.
+    </p>
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSfotSTNEhPle1lA9V0iKvg2tbqHBAyW4rWzfWbEmpya7Hagxw/viewform?usp=sharing&ouid=104150743439874504554" 
+       class="button">
+       Apply as Tester
+    </a>
+  </section>
+
+  <div class="divider"></div>
+
+  <section id="leadership">
+    <h2>Leadership</h2>
+    <p>
+      <strong>Kenjiro Akihito Miyagi</strong> leads the Miyagi X Pulse initiative, guiding its 
+      research, architecture, and global expansion strategy.
+    </p>
+  </section>
 
   <footer>
     © 2025 Miyagi X Pulse — Quantum Blockchain Network for the Pulse Age
