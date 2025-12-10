@@ -25,7 +25,7 @@
       background-size: 100% 600px;
     }
 
-    /* --- NAVBAR (Consistent with site) --- */
+    /* --- NAVBAR --- */
     header {
       display: flex;
       justify-content: space-between;
@@ -83,7 +83,7 @@
     /* --- SIDEBAR TOC --- */
     aside {
       position: sticky;
-      top: 120px;
+      top: 120px; /* Space from top of screen */
       height: fit-content;
       border-right: 1px solid rgba(255,255,255,0.05);
       padding-right: 20px;
@@ -108,6 +108,7 @@
       transition: 0.2s;
       padding-left: 10px;
       border-left: 2px solid transparent;
+      cursor: pointer;
     }
 
     .toc-link:hover, .toc-link.active {
@@ -127,6 +128,11 @@
       border: 1px solid rgba(255,255,255,0.03);
     }
 
+    /* FIX: Scroll Margin prevents header from covering titles */
+    section {
+        scroll-margin-top: 100px;
+    }
+
     h1 { font-size: 2.4em; font-weight: 700; color: #fff; margin-bottom: 10px; }
     .version { color: #42caff; font-family: monospace; font-size: 0.9em; display: block; margin-bottom: 40px; }
 
@@ -139,7 +145,6 @@
       border-bottom: 1px solid rgba(255,255,255,0.1);
     }
 
-    /* First h2 shouldn't have top margin */
     section:first-of-type h2 { margin-top: 0; }
 
     h3 { font-size: 1.3em; color: #42caff; margin-top: 40px; margin-bottom: 15px; }
@@ -162,7 +167,7 @@
       font-size: 0.95em;
     }
 
-    /* Table Styles within Whitepaper */
+    /* Table Styles */
     .wp-table {
       width: 100%;
       border-collapse: collapse;
@@ -192,7 +197,7 @@
 
     @media (max-width: 900px) {
       .container { grid-template-columns: 1fr; }
-      aside { display: none; } /* Hide TOC on mobile for simplicity */
+      aside { display: none; } 
       header { padding: 0 20px; }
       nav { display: none; }
     }
@@ -215,22 +220,18 @@
     
     <aside>
       <h4>Contents</h4>
-      <a href="#section-1" class="toc-link active">1. Executive Summary</a>
+      <a href="#section-1" class="toc-link">1. Executive Summary</a>
       <a href="#section-2" class="toc-link">2. System Overview</a>
       <a href="#section-3" class="toc-link">3. Hybrid Pulse Architecture</a>
-      
       <a href="#section-4" class="toc-link">4. Consensus Mechanism</a>
       <a href="#section-5" class="toc-link">5. Security Model</a>
       <a href="#section-6" class="toc-link">6. Tokenomics (Model)</a>
-
       <a href="#section-7" class="toc-link">7. Economic Incentives</a>
       <a href="#section-8" class="toc-link">8. Governance</a>
       <a href="#section-9" class="toc-link">9. Scaling Strategy</a>
-
       <a href="#section-10" class="toc-link">10. Tokenomics (Allocation)</a>
       <a href="#section-11" class="toc-link">11. Security Analysis</a>
       <a href="#section-12" class="toc-link">12. Self-Recovery</a>
-
       <a href="#section-13" class="toc-link">13. Operational Cost</a>
       <a href="#section-14" class="toc-link">14. API & Dev Appendix</a>
       <a href="#section-15" class="toc-link">15. Launch Plan</a>
@@ -645,6 +646,33 @@ POST /report         - Submit anomalies</div>
   <footer>
     © 2025 Miyagi X Pulse — Quantum Blockchain Network
   </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const sections = document.querySelectorAll('section');
+      const navLinks = document.querySelectorAll('.toc-link');
+
+      window.addEventListener('scroll', () => {
+        let current = '';
+        
+        sections.forEach(section => {
+          const sectionTop = section.offsetTop;
+          const sectionHeight = section.clientHeight;
+          // Trigger highlight slightly before the section hits top
+          if (scrollY >= (sectionTop - 150)) {
+            current = section.getAttribute('id');
+          }
+        });
+
+        navLinks.forEach(link => {
+          link.classList.remove('active');
+          if (link.getAttribute('href').includes(current)) {
+            link.classList.add('active');
+          }
+        });
+      });
+    });
+  </script>
 
 </body>
 </html>
