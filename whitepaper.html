@@ -238,19 +238,19 @@
     </aside>
 
     <main>
-      <h1>Miyagi X Pulse (MXP)</h1>
+      <h1>Miyagi X Pulse (MIX)</h1>
       <span class="version">Technical Whitepaper v1.0 — Full Institutional Release</span>
 
       <section id="section-1">
         <h2>Section 1 — Executive Summary</h2>
         <p>
-          Miyagi X Pulse (MXP) is a hybrid distributed ledger system designed to support high-scale mobile participation through an energy-efficient consensus model known as <strong>Proof of Pulse and Participation (PoPP)</strong>. Rather than relying on high-performance hardware or traditional proof-of-work computation, MXP enables millions of smartphones to act as lightweight nodes contributing secure activity proofs (“pulses”) at fixed intervals.
+          Miyagi X Pulse (MIX) is a hybrid distributed ledger system designed to support high-scale mobile participation through an energy-efficient consensus model known as <strong>Proof of Pulse and Participation (PoPP)</strong>. Rather than relying on high-performance hardware or traditional proof-of-work computation, MIX enables millions of smartphones to act as lightweight nodes contributing secure activity proofs (“pulses”) at fixed intervals.
         </p>
         <p>
           These pulses are aggregated into regional Micro-Blocks and finalized into global Pulse Blocks, which are periodically anchored to a major Layer-1 blockchain. This hybrid architecture combines the scalability and low operational requirements of a mobile-first network with the security guarantees of an established L1 chain.
         </p>
         <p>
-          MXP introduces a mathematically governed emission schedule, long-term sustainability mechanisms, and a token distribution strategy designed to support both community participation and structured ecosystem growth. The system ensures that 45% of total supply is allocated directly to mobile miners, providing transparent, predictable, and auditable distribution over multiple years.
+          MIX introduces a mathematically governed emission schedule, long-term sustainability mechanisms, and a token distribution strategy designed to support both community participation and structured ecosystem growth. The system ensures that 45% of total supply is allocated directly to mobile miners, providing transparent, predictable, and auditable distribution over multiple years.
         </p>
       </section>
 
@@ -258,7 +258,7 @@
         <h2>Section 2 — System Overview</h2>
         
         <h3>2.1 Network Layers</h3>
-        <p>MXP is structured into three functional layers:</p>
+        <p>MIX is structured into three functional layers:</p>
         <ul>
           <li><strong>Pulse Layer (Mobile Layer):</strong> Smartphones send periodic pulses (activity proofs) containing timestamped device attestations and cryptographic signatures.</li>
           <li><strong>Consensus Layer (Leader/Cluster/Core Nodes):</strong> A hierarchical proof network. Leaders aggregate ~1,000 pulses; Cluster Nodes build Micro-Blocks; Core Nodes finalize global Pulse Blocks.</li>
@@ -266,7 +266,7 @@
         </ul>
 
         <h3>2.2 Data Structures</h3>
-        <p>MXP uses the following core data structures:</p>
+        <p>MIX uses the following core data structures:</p>
         <ul>
           <li><strong>Pulse (P):</strong> Contains uid, epoch, device hash, metadata, and cryptographic signature.</li>
           <li><strong>Micro-Block (MB):</strong> A Merkle tree of pulses from a single region.</li>
@@ -275,7 +275,7 @@
         </ul>
 
         <h3>2.3 Epoch Structure</h3>
-        <p>MXP uses fixed 1-hour epochs. This supports statistical predictability in the emission schedule and simplifies reward accounting.</p>
+        <p>MIX uses fixed 1-hour epochs. This supports statistical predictability in the emission schedule and simplifies reward accounting.</p>
       </section>
 
       <section id="section-3">
@@ -342,8 +342,8 @@ Submit CP to the anchoring L1 chain</div>
         
         <h3>6.1 Token Overview</h3>
         <ul>
-          <li><strong>Symbol:</strong> MXP</li>
-          <li><strong>Total Supply:</strong> 1,000,000,000 MXP (Fixed)</li>
+          <li><strong>Symbol:</strong> MIX</li>
+          <li><strong>Total Supply:</strong> 1,000,000,000 MIX (Fixed)</li>
         </ul>
 
         <h3>6.2 Distribution Breakdown (Summary)</h3>
@@ -352,7 +352,7 @@ Submit CP to the anchoring L1 chain</div>
             <tr>
               <th>Category</th>
               <th>Allocation</th>
-              <th>Amount (MXP)</th>
+              <th>Amount (MIX)</th>
             </tr>
           </thead>
           <tbody>
@@ -401,16 +401,16 @@ Submit CP to the anchoring L1 chain</div>
         <p>Where \(W_i\) is the weight factor reflecting uptime, history, and regional diversity.</p>
 
         <h3>7.2 Validator Incentives</h3>
-        <p>Cluster and Core Validators stake MXP and receive:</p>
+        <p>Cluster and Core Validators stake MIX and receive:</p>
         <div class="formula-block">$$ R_{cv} = \alpha \cdot R_{cluster} + \beta \cdot R_{core} $$</div>
         
         <p><strong>Expected ROI Calculation:</strong></p>
-        <div class="formula-block">$$ ROI = \frac{R_{cv} \cdot P_{MXP} - C_{oper}}{C_{oper}} $$</div>
+        <div class="formula-block">$$ ROI = \frac{R_{cv} \cdot P_{MIX} - C_{oper}}{C_{oper}} $$</div>
       </section>
 
       <section id="section-8">
         <h2>Section 8 — Governance Framework</h2>
-        <p>MXP adopts a hybrid governance model combining on-chain voting and off-chain DAO oversight.</p>
+        <p>MIX adopts a hybrid governance model combining on-chain voting and off-chain DAO oversight.</p>
         
         <h3>8.1 Governance Participants</h3>
         <ul>
@@ -430,7 +430,7 @@ Submit CP to the anchoring L1 chain</div>
         
         <h3>9.1 Hierarchical Node Aggregation</h3>
         <p>
-          MXP is designed to scale from 1 million to 1 billion mobile nodes using hierarchical aggregation (LN → LD → CL → CORE).
+          MIX is designed to scale from 1 million to 1 billion mobile nodes using hierarchical aggregation (LN → LD → CL → CORE).
         </p>
         <div class="formula-block">$$ N_{max} = N_{CORE} \cdot 1000_{CL} \cdot 1000_{LD} = 1 \text{ Billion Nodes} $$</div>
         
@@ -448,7 +448,7 @@ Submit CP to the anchoring L1 chain</div>
             <li>Cliff period: 12 months</li>
             <li>Linear vesting: 36–48 months</li>
         </ul>
-        <div class="formula-block">$$ R_{monthly} = \frac{150,000,000}{36} \approx 4,166,667 \text{ MXP/month} $$</div>
+        <div class="formula-block">$$ R_{monthly} = \frac{150,000,000}{36} \approx 4,166,667 \text{ MIX/month} $$</div>
         
         <h3>10.4 Emission Control Formula</h3>
         <p>Reward per node formula detailed:</p>
@@ -524,7 +524,7 @@ Submit CP to the anchoring L1 chain</div>
         </table>
 
         <h3>13.2 Reward vs. Cost Analysis</h3>
-        <div class="formula-block">$$ ROI = \frac{R_{node} \cdot P_{MXP} - C_{oper}}{C_{oper}} $$</div>
+        <div class="formula-block">$$ ROI = \frac{R_{node} \cdot P_{MIX} - C_{oper}}{C_{oper}} $$</div>
         <p>Expected ROI for CORE nodes: 15–25% annually at minimum efficiency.</p>
         
         <h3>13.3 Five-Year Financial Projection (Summary)</h3>
@@ -532,7 +532,7 @@ Submit CP to the anchoring L1 chain</div>
             <thead>
                 <tr>
                     <th>Year</th>
-                    <th>Node Rewards (MXP)</th>
+                    <th>Node Rewards (MIX)</th>
                     <th>Node Rewards (USD)</th>
                     <th>Remaining Supply</th>
                 </tr>
@@ -572,7 +572,7 @@ Submit CP to the anchoring L1 chain</div>
         <h3>14.1 Core API Endpoints</h3>
         <div class="formula-block">POST /register       - Register a new mobile node
 POST /pulse          - Submit pulse data
-GET  /balance        - Fetch node MXP balance
+GET  /balance        - Fetch node MIX balance
 GET  /proof/{id}     - Retrieve Merkle proof
 POST /report         - Submit anomalies</div>
         
