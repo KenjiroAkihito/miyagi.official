@@ -9,7 +9,7 @@
   
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-  
+
   <style>
     /* --- CORE THEME --- */
     * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
@@ -195,6 +195,20 @@
     }
     
     .wp-table tr:last-child td { border-bottom: none; }
+    
+    /* Image placeholder styling */
+    .image-placeholder {
+        background: rgba(66, 202, 255, 0.1);
+        border: 1px solid rgba(66, 202, 255, 0.5);
+        padding: 20px;
+        margin: 25px auto;
+        text-align: center;
+        color: #42caff;
+        font-family: monospace;
+        font-size: 0.8em;
+        border-radius: 6px;
+        max-width: 80%;
+    }
 
     @media (max-width: 900px) {
       .container { grid-template-columns: 1fr; }
@@ -240,126 +254,108 @@
     </aside>
 
     <main>
-      <h1>Miyagi X Pulse (MIX)</h1>
+      <h1>Miyagi X Pulse (MXP)</h1>
       <span class="version">Technical Whitepaper v1.0 — Full Institutional Release</span>
 
       <section id="section-1">
         <h2>Section 1 — Executive Summary</h2>
+        <p>This executive summary is intentionally rigorous — it states goals, measurable requirements, and deliverables so auditors and engineers can validate feasibility directly.</p>
         <p>
-          Miyagi X Pulse (MIX) is a hybrid distributed ledger system designed to support high-scale mobile participation through an energy-efficient consensus model known as <strong>Proof of Pulse and Participation (PoPP)</strong>. Rather than relying on high-performance hardware or traditional proof-of-work computation, MIX enables millions of smartphones to act as lightweight nodes contributing secure activity proofs (“pulses”) at fixed intervals.
+          Miyagi X Pulse (MIX) combines a mobile-first pulse-producing layer with a hierarchical consensus & periodic checkpoint anchoring to a secure Layer-1. The design objectives are:
         </p>
-        <p>
-          These pulses are aggregated into regional Micro-Blocks and finalized into global Pulse Blocks, which are periodically anchored to a major Layer-1 blockchain. This hybrid architecture combines the scalability and low operational requirements of a mobile-first network with the security guarantees of an established L1 chain.
-        </p>
-        <p>
-          MIX introduces a mathematically governed emission schedule, long-term sustainability mechanisms, and a token distribution strategy designed to support both community participation and structured ecosystem growth. The system ensures that 45% of total supply is allocated directly to mobile miners, providing transparent, predictable, and auditable distribution over multiple years.
-        </p>
+        <ul>
+          <li>Enable mass participation with negligible device energy overhead (target: &lt;=1% battery/day for active users).</li>
+          <li>Provide auditable, mathematically bounded finality via hierarchical aggregation and L1 anchoring.</li>
+          <li>Support quantum-resistant cryptography and an optional quantum-hybrid entropy layer for improved randomness and Q-score calculations.</li>
+          <li>Deliver predictable token emission and long-term economic sustainability aligned to participation instead of capital concentration.</li>
+        </ul>
+        <p>Deliverables in this whitepaper: formal protocol definitions, sampling and leader-selection proofs, emission derivations, security bounds, capacity planning, API contracts, and appendices with mathematical derivations and CSV-ready emission tables.</p>
       </section>
 
       <section id="section-2">
         <h2>Section 2 — System Overview</h2>
         
-        <h3>2.1 Network Layers</h3>
-        <p>MIX is structured into three functional layers:</p>
+        <h3>2.1 Layers and Roles (formal)</h3>
+        <p>The system is composed of three primary layers:</p>
         <ul>
-          <li><strong>Pulse Layer (Mobile Layer):</strong> Smartphones send periodic pulses (activity proofs) containing timestamped device attestations and cryptographic signatures.</li>
-          <li><strong>Consensus Layer (Leader/Cluster/Core Nodes):</strong> A hierarchical proof network. Leaders aggregate ~1,000 pulses; Cluster Nodes build Micro-Blocks; Core Nodes finalize global Pulse Blocks. </li>
-          <li><strong>Anchoring Layer (Hybrid Finality):</strong> The finalized Pulse Block root hash is committed to a major Layer-1 blockchain at fixed intervals (every 12 epochs).</li>
+          <li><strong>Pulse Layer (mobile):</strong> Linked Nodes (LN) — smartphones — generate signed pulses each epoch.</li>
+          <li><strong>Consensus Layer (hierarchical):</strong> Leader (LD) → Cluster (CL) → Core (CORE) nodes aggregate, sample, and finalize. </li>
+          <li><strong>Anchoring Layer:</strong> Periodic checkpoints are committed to a secure Layer-1 chain for external finality.</li>
         </ul>
 
-        <h3>2.2 Data Structures</h3>
-        <p>MIX uses the following core data structures:</p>
-        <ul>
-          <li><strong>Pulse (P):</strong> Contains uid, epoch, device hash, metadata, and cryptographic signature.</li>
-          <li><strong>Micro-Block (MB):</strong> A Merkle tree of pulses from a single region.</li>
-          <li><strong>Pulse Block (PB):</strong> A consolidated structure containing Merkle roots of all Micro-Blocks.</li>
-          <li><strong>Checkpoint (CP):</strong> A hash commitment stored on the anchoring L1 chain.</li>
-        </ul>
-
-        <h3>2.3 Epoch Structure</h3>
-        <p>MIX uses fixed 1-hour epochs. This supports statistical predictability in the emission schedule and simplifies reward accounting.</p>
+        <h3>2.2 Data types and commitment model</h3>
+        <p>Canonical data structures (human-readable form):</p>
+        <div class="formula-block">PULSE P = { uid, epoch, timestamp, region_id, device_hash, metadata, signature }
+MICROBLOCK MB = MerkleRoot(P_1, ..., P_n)
+PULSEBLOCK PB = { MB_region1, ..., MB_regionK, PB_meta, CORE_signatures }
+CHECKPOINT CP = Sign_CORE( Hash(PB) || Hash(ledger_snapshot) || epoch_range )</div>
+        <p>All commitments rely on Merkle roots; reward ledger snapshots are Merkleized to allow compact Merkle proofs against rewards and balances.</p>
       </section>
 
       <section id="section-3">
         <h2>Section 3 — Hybrid Pulse Architecture</h2>
         
         <h3>3.1 Pulse Production, Cryptographic Commitment, and State</h3>
-        <p>The Pulse signature relies on a strong, collision-resistant hash function \(H(\cdot)\) concatenated with a time-bound nonce. The device's **attestation hash** prevents cloning. The network state is maintained using a **Merkle Patricia Trie (MPT)** for efficient verification of state transitions.</p>
-        <div class="formula-block">P = { uid, epoch_id, timestamp, device_hash, region_id, metadata, signature }</div>
-        <p>Where the signature is computed using:</p>
+        <p>The cryptographic commitment for the pulse signature relies on a strong, collision-resistant hash function \(H(\cdot)\) such as SHA3-256 concatenated with a time-bound nonce. The device's **attestation hash** is derived from shielded hardware indicators to prevent cloning and spoofing. The overall network state is maintained using a **Merkle Patricia Trie (MPT)**, allowing for efficient verification of state transitions without requiring nodes to download the entire history. </p>
+        <p>Pulse signature computation:</p>
         <div class="formula-block">sig = Sign(private_key, H(uid ∥ epoch_id ∥ timestamp ∥ device_hash))</div>
         
         <h3>3.2 Validation Pipeline, Batching, and Merkle Proofs</h3>
-        <p>LDs perform batched signature verification using batch-ECDSA accumulation to reduce per-pulse verification cost. CLs validate a random sample of leaf proofs contained within the LD batch Merkle tree.</p>
+        <p>LDs perform batched signature verification using batch-ECDSA accumulation (or BLS when used) to reduce per-pulse verification cost. CLs validate a random sample of leaf proofs contained within the LD batch Merkle tree. MBs are formed and appended only when sampling constraints are satisfied.</p>
 
-        <h3>3.5 Checkpoint Commitment, Anchoring, and Finality</h3>
-        <p>Checkpoints are secured by **BLS Multi-Signatures** from a quorum of Core Nodes, providing aggregation benefits and strong resilience.</p>
-        <div class="formula-block">Compute global_root = MerkleRoot(PulseBlock)
-Compute ledger_root = MerkleRoot(reward_ledger)
-Compute combined_hash = H(global_root ∥ ledger_root ∥ epoch_range)
-CP = BLS_Quorum_Sign(combined)
-Submit CP to the anchoring L1 chain</div>
+        <h3>3.3 Checkpoint Formation, Anchoring, and Finality</h3>
+        <p>Checkpoints are produced every \(E_a\) epochs (default \(E_a = 12\)). The commitment is secured by **BLS Multi-Signatures** from a quorum of Core Nodes, providing aggregation benefits and strong resilience.</p>
+        <div class="formula-block">global_root = MerkleRoot(PB_1 .. PB_Ea)
+ledger_root = MPT_Root(reward_ledger_snapshot)
+combined = Hash(global_root || ledger_root || epoch_range)
+CP = BLS_Quorum_Sign(combined)</div>
+        <p>The Anchoring interval \(E_a\) is a tunable parameter balancing transaction finality latency with the L1 gas cost.</p>
       </section>
 
       <section id="section-4">
-        <h2>Section 4 — Consensus Mechanism</h2>
+        <h2>Section 4 — Consensus Mechanism (PoPP)</h2>
         
-        <h3>4.1 Overview</h3>
-        <p>
-          Miyagi X Pulse introduces <strong>Proof of Pulse & Participation (PoPP)</strong>, a lightweight consensus mechanism optimized for mobile-first decentralized networks.
-        </p>
-
-        <h3>4.2 Pulse Epoch Structure</h3>
-        <p>
-          Each epoch lasts <code>t = 6 hours</code> by protocol specification. Active MPNs generate a cryptographic pulse:
-        </p>
-        <div class="formula-block">$$ P_i = H(UID_i \parallel T_e \parallel S_i) $$</div>
-        <p>Cluster Validators then aggregate pulses using a Merkle accumulator:</p>
-        <div class="formula-block">$$ M_e = MerkleRoot(P_1, P_2, ..., P_n) $$</div>
-
-        <h3>4.3 Leader Selection</h3>
-        <p>Leader selection uses a deterministic VRF:</p>
-        <div class="formula-block">$$ L_e = VRF( SK_{cv}, H(M_e \parallel T_e ) ) $$</div>
-        
-        <h3>4.4 Finality Model</h3>
+        <h3>4.1 Protocol Specification and Dynamic Parameters</h3>
+        <p>PoPP = (EpochDuration, LeaderSelection, SamplingPolicy, FinalityRules). For implementation:</p>
         <ul>
-            <li><strong>Soft Finality:</strong> 1-2 seconds (Pulse Layer).</li>
-            <li><strong>Hard Finality:</strong> Anchoring to L1 every 4-12 hours.</li>
+          <li>EpochDuration: 1 hour for pulses; sub-windows for boosts.</li>
+          <li>LeaderSelection: **Verifiable Random Function (VRF)**-based, thresholded by stake and historical performance score.</li>
+          <li>SamplingPolicy: CL uses randomized sampling; sample size \(m\) computed by formula in Section 5.</li>
+          <li>FinalityRules: MB accepted on CL quorum; CP anchored to L1 provides economic finality.</li>
         </ul>
+
+        <h3>4.2 VRF Leader Selection and Cryptographic Thresholds</h3>
+        <p>For candidate \(v\), compute VRF output \(\pi_v = \text{VRF}(\text{sk}_v, H(\text{epoch} \parallel \text{cluster\_id}))\). Accept leader if \(\pi_v < T\) where \(T\) is calibrated so expected leader count per cluster is \(\approx 1\) per epoch. VRF guarantees unpredictability and non-bias, making LD selection unexploitable before the epoch begins.</p>
+
+        <h3>4.3 Reward Windows, Boost Mechanics, and Control Loops</h3>
+        <p>Boost windows (6 hours) allow optional user-triggered multiplier \(b \ge 1\). To preserve supply invariants, global boost utilization is capped via a **PID control loop** that dynamically reduces the base emission factor when aggregate boost usage exceeds the protocol's safety threshold, ensuring the total emission \(R_t\) remains mathematically bounded.</p>
       </section>
 
       <section id="section-5">
         <h2>Section 5 — Security Model</h2>
         
         <h3>5.1 Threat Taxonomy, Cost of Collusion, and L1 Enforcement</h3>
-        <p>The protocol defends against Sybil farming and validator collusion. The **cost of collusion** $C_{collusion}$ must exceed the potential gain $G$: $C_{collusion} = S_c \cdot P_{MIX} + C_{slashing} > G$. L1 anchoring provides an external economic barrier against forgery.</p>
-        
-        <h3>5.2 Sybil Resistance</h3>
-        <p>The Sybil inflation cost is modeled by:</p>
-        <div class="formula-block">$$ C_{sybil}(n) = n \cdot C_{device} + \lambda \cdot P_{flagging} $$</div>
-        
-        <h3>5.4 Checkpoint Security</h3>
-        <p>
-          The adversary must break both the PoPP layer and the L1 chain finality.
-        </p>
-        <div class="formula-block">$$ P_{false} = P_{cv\_collusion} \times P_{L1\_reorg} \approx 0 $$</div>
-        
-        <h3>5.5 Sampling Theorem and Detection Bounds</h3>
-        <p>To detect a faulty fraction \(f\) with confidence \(\alpha\), Cluster Nodes select a sample size \(m\):</p>
+        <p>Important attacks and required attacker budgets:</p>
+        <ul>
+          <li>**Sybil farming:** Cost = number of devices * hardware provisioning + account creation friction; mitigations: shielded hardware attestation, rate-limits, reputation score cost.</li>
+          <li>**Validator collusion:** Cost is the aggregated staked value $S_c$. The **cost of collusion** $C_{collusion}$ must exceed the potential gain $G$: $C_{collusion} = S_c \cdot P_{MXP} + C_{slashing} > G$. Protocol tolerates up to $1/3$ honest failures; L1 anchoring provides an additional economic barrier.</li>
+          <li>**Checkpoint forgery:** Requires simultaneous CL/CORE collusion (secured by BLS multi-sig) & parent L1 reorg within contestation window; probability $P_{false}$ is negligible.</li>
+        </ul>
+
+        <h3>5.2 Sampling Theorem and Detection Bounds</h3>
+        <p>To detect a faulty fraction \(f\) with confidence \(\alpha\), Cluster Nodes select a sample size \(m\) such that: </p>
         <div class="formula-block">$$ m \geq \frac{\ln(1-\alpha)}{\ln(1-f)} $$</div>
+        <p>Example: \(f=0.05, \alpha=0.999 \Rightarrow m \approx 134\) samples. We use this \(m\) per CL per MB assembly to ensure detection probabilities stay below 0.1% for expected fault rates, minimizing verification cost while maximizing certainty.</p>
       </section>
 
       <section id="section-6">
-        <h2>Section 6 — Tokenomics (Economic Model)</h2>
+        <h2>Section 6 — Tokenomics (Model)</h2>
         
-        <h3>6.1 Token Overview</h3>
-        <ul>
-          <li><strong>Symbol:</strong> MIX</li>
-          <li><strong>Total Supply:</strong> 1,000,000,000 MIX (Fixed)</li>
-        </ul>
+        <h3>6.1 Supply and Allocation Model</h3>
+        <p>Total supply \(S = 1,000,000,000\) MIX. Mining allocation \(M = 0.45 S = 450,000,000\) MIX.</p>
 
         <h3>6.2 Discrete Emission Derivation and Epoch Reward Calculation</h3>
-        <p>The continuous emission formula $R(t) = R_0 \cdot e^{-k t}$ serves as the theoretical base. For discrete, epoch-based issuance, the initial reward per epoch (\(R_{epoch, 1}\)) is calculated by dividing the first year's emission ($R_1$) by the total number of epochs in the year ($E_{year}$).</p>
+        <p>The continuous emission formula $R(t) = R_0 \cdot e^{-k t}$ serves as the theoretical base. For practical, discrete epoch-based issuance, the initial reward per epoch (\(R_{epoch, 1}\)) is calculated by dividing the first year's emission ($R_1$) by the total number of epochs in the year ($E_{year}$). </p>
         <div class="formula-block">$$ R_{epoch, Y} = \frac{M \cdot k \cdot e^{-k(Y-1)}}{E_{year}} $$</div>
         
         <h3>6.3 Distribution Breakdown (Summary)</h3>
@@ -368,7 +364,7 @@ Submit CP to the anchoring L1 chain</div>
             <tr>
               <th>Category</th>
               <th>Allocation</th>
-              <th>Amount (MIX)</th>
+              <th>Amount (MXP)</th>
             </tr>
           </thead>
           <tbody>
@@ -406,14 +402,14 @@ Submit CP to the anchoring L1 chain</div>
         
         <h3>7.1 Mobile Node Incentives</h3>
         <p>
-          Mobile nodes (Linked Nodes – LN) receive rewards based on pulse participation and epoch consistency.
+          Per node reward \(R_{i,e}\) is determined by the total epoch reward divided by active nodes, weighted by \(W_i\), the node's participation weight:
         </p>
         <div class="formula-block">$$ R_{i,e} = \frac{R_{epoch}}{N_{active}} \times W_i $$</div>
-        <p>Where \(W_i\) is the participation weight factor.</p>
+        <p>Where \(W_i\) is the weight factor reflecting uptime, history, and regional diversity.</p>
 
         <h3>7.2 Validator Incentives</h3>
-        <p>Cluster and Core Validators stake MIX and receive:</p>
-        <div class="formula-block">$$ ROI = \frac{R_{cv} \cdot P_{MIX} - C_{oper}}{C_{oper}} $$</div>
+        <p>Cluster and Core Validators stake MXP and receive:</p>
+        <div class="formula-block">$$ ROI = \frac{R_{cv} \cdot P_{MXP} - C_{oper}}{C_{oper}} $$</div>
       </section>
 
       <section id="section-8">
@@ -453,7 +449,7 @@ Submit CP to the anchoring L1 chain</div>
             <li>Cliff period: 12 months</li>
             <li>Linear vesting: 36–48 months</li>
         </ul>
-        <div class="formula-block">$$ R_{monthly} = \frac{150,000,000}{36} \approx 4,166,667 \text{ MIX/month} $$</div>
+        <div class="formula-block">$$ R_{monthly} = \frac{150,000,000}{36} \approx 4,166,667 \text{ MXP/month} $$</div>
         
         <h3>10.4 Emission Control Formula</h3>
         <p>Reward per node formula detailed:</p>
@@ -529,7 +525,7 @@ Submit CP to the anchoring L1 chain</div>
         </table>
 
         <h3>13.2 Reward vs. Cost Analysis</h3>
-        <div class="formula-block">$$ ROI = \frac{R_{node} \cdot P_{MIX} - C_{oper}}{C_{oper}} $$</div>
+        <div class="formula-block">$$ ROI = \frac{R_{node} \cdot P_{MXP} - C_{oper}}{C_{oper}} $$</div>
         <p>Expected ROI for CORE nodes: 15–25% annually at minimum efficiency.</p>
         
         <h3>13.3 Five-Year Financial Projection (Summary)</h3>
@@ -537,7 +533,7 @@ Submit CP to the anchoring L1 chain</div>
             <thead>
                 <tr>
                     <th>Year</th>
-                    <th>Node Rewards (MIX)</th>
+                    <th>Node Rewards (MXP)</th>
                     <th>Node Rewards (USD)</th>
                     <th>Remaining Supply</th>
                 </tr>
@@ -577,7 +573,7 @@ Submit CP to the anchoring L1 chain</div>
         <h3>14.1 Core API Endpoints</h3>
         <div class="formula-block">POST /register       - Register a new mobile node
 POST /pulse          - Submit pulse data
-GET  /balance        - Fetch node MIX balance
+GET  /balance        - Fetch node MXP balance
 GET  /proof/{id}     - Retrieve Merkle proof
 POST /report         - Submit anomalies</div>
         
@@ -609,12 +605,12 @@ POST /report         - Submit anomalies</div>
                 <tr>
                     <td>Testnet</td>
                     <td>6 months</td>
-                    <td>1k users, PoPP validation</td>
+                    <td>1k users, PoPP tuning, 1k–10k LNs</td>
                 </tr>
                 <tr>
                     <td>Expansion</td>
                     <td>9–12 months</td>
-                    <td>10k users, first Core nodes</td>
+                    <td>10k users, first Core nodes, multi-region CLs</td>
                 </tr>
                 <tr>
                     <td>Mainnet</td>
@@ -624,7 +620,7 @@ POST /report         - Submit anomalies</div>
                 <tr>
                     <td>Ecosystem</td>
                     <td>2–5 years</td>
-                    <td>1B mobile nodes, DePIN integration</td>
+                    <td>1B mobile nodes, DePIN integration, QPU support</td>
                 </tr>
             </tbody>
         </table>
