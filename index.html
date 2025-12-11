@@ -1,343 +1,685 @@
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Miyagi X Pulse | Quantum Blockchain Network</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      scroll-behavior: smooth;
-    }
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    body {
-      font-family: 'Inter', sans-serif;
-      background:
-        linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.75)),
-        url("assets/background.jpg") no-repeat center top fixed;
-      background-size: auto 100vh;
-      background-color: #000;
-      color: #e3e7eb;
-      line-height: 1.6;
-    }
+  <title>Miyagi X Pulse | Quantum Blockchain Network</title>
 
-    /* NAVBAR CONTAINER */
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: rgba(10, 12, 16, 0.9);
-      padding: 0 40px;
-      height: 80px;
-      position: fixed;
-      top: 0;
-      width: 100%;
-      z-index: 1000;
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-    }
 
-    .logo {
-      font-size: 1.4em;
-      font-weight: 700;
-      color: #42caff;
-      text-decoration: none;
-      letter-spacing: 0.5px;
-      margin-right: 20px;
-    }
 
-    /* NAVIGATION LINKS */
-    nav {
-      display: flex;
-      align-items: center;
-      gap: 25px;
-      height: 100%;
-    }
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    /* Standard Nav Link */
-    nav > a, .dropbtn {
-      text-decoration: none;
-      color: #b8c2cc;
-      font-weight: 500;
-      font-size: 0.9em;
-      transition: 0.2s;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      height: 80px; /* Full height for hover target */
-      cursor: pointer;
-    }
 
-    nav > a:hover, .dropdown:hover .dropbtn {
-      color: #42caff;
-    }
 
-    /* DROPDOWN MENU (Mega Menu) */
-    .dropdown {
-      position: relative;
-      height: 100%;
-      display: flex;
-      align-items: center;
-    }
+  <style>
 
-    .dropdown-content {
-      display: none; /* Hidden by default */
-      position: absolute;
-      top: 80px; /* Pushes it exactly below header */
-      left: -100px; /* Adjust centering relative to parent */
-      width: 800px; /* Wide mega menu */
-      background: rgba(14, 17, 22, 0.98);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-top: none;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-      border-radius: 0 0 12px 12px;
-      padding: 30px;
-      grid-template-columns: 1.5fr 1fr;
-      gap: 40px;
-      animation: fadeIn 0.2s ease-in-out;
-    }
+    * {
 
-    /* Show dropdown on hover */
-    .dropdown:hover .dropdown-content {
-      display: grid;
-    }
+      margin: 0;
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+      padding: 0;
 
-    /* Dropdown - Left Column (Description) */
-    .mm-desc h3 {
-      font-size: 1.1em;
-      color: #ffffff;
-      margin-bottom: 15px;
-      border-bottom: 1px solid rgba(66, 202, 255, 0.3);
-      display: inline-block;
-      padding-bottom: 5px;
-    }
+      box-sizing: border-box;
 
-    .mm-desc p {
-      font-size: 0.95em;
-      color: #9aa5b1;
-      line-height: 1.7;
-      margin-bottom: 20px;
-    }
+      scroll-behavior: smooth;
 
-    /* Dropdown - Right Column (Links List) */
-    .mm-links {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      border-left: 1px solid rgba(255,255,255,0.06);
-      padding-left: 30px;
-    }
+    }
 
-    .mm-links span {
-      font-size: 0.8em;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: #5c6b7f;
-      margin-bottom: 5px;
-      font-weight: 600;
-    }
 
-    .mm-links a {
-      color: #e3e7eb;
-      text-decoration: none;
-      font-size: 0.95em;
-      transition: 0.2s;
-      display: block;
-    }
 
-    .mm-links a:hover {
-      color: #42caff;
-      transform: translateX(5px);
-    }
+    body {
 
-    /* SPECIAL ELEMENTS */
-    
-    /* "New" Badge */
-    .badge-new {
-      font-size: 0.65em;
-      background: rgba(66, 202, 255, 0.15);
-      color: #42caff;
-      border: 1px solid rgba(66, 202, 255, 0.3);
-      padding: 2px 6px;
-      border-radius: 4px;
-      text-transform: uppercase;
-      font-weight: 700;
-    }
+      font-family: 'Inter', sans-serif;
 
-    /* Navbar Test Button */
-    .nav-cta {
-      background: #42caff;
-      color: #000 !important;
-      padding: 10px 20px;
-      border-radius: 6px;
-      font-weight: 600;
-      height: auto; /* Override standard nav height */
-      margin-left: 15px;
-    }
+      background:
 
-    .nav-cta:hover {
-      background: #63d7ff;
-      color: #000;
-    }
+        linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.75)),
 
-    /* REST OF SITE STYLES */
-    .hero {
-      padding: 180px 20px 80px;
-      max-width: 900px;
-      margin: 0 auto;
-      text-align: left;
-    }
+        url("assets/background.jpg") no-repeat center top fixed;
 
-    h1 { font-size: 2.8em; font-weight: 700; color: #ffffff; margin-bottom: 12px; }
-    h2 { font-size: 1.4em; font-weight: 500; color: #42caff; margin-bottom: 25px; }
-    p { font-size: 1.1em; color: #cbd5df; margin-bottom: 20px; }
+      background-size: auto 100vh;
 
-    .button {
-      display: inline-block;
-      margin-top: 25px;
-      padding: 14px 30px;
-      color: white;
-      background: #42caff;
-      border-radius: 6px;
-      text-decoration: none;
-      font-weight: 600;
-      transition: 0.2s;
-    }
-    .button:hover { background: #63d7ff; }
-    
-    section { max-width: 900px; margin: 80px auto; padding: 0 20px; }
-    .divider { margin: 40px 0; height: 1px; background: rgba(255,255,255,0.07); }
-    footer { margin-top: 120px; text-align: center; font-size: 0.85em; padding-bottom: 40px; color: #7a8590; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 30px; }
+      background-color: #000;
 
-    .arrow { font-size: 0.7em; margin-top: 2px; }
+      color: #e3e7eb;
 
-    @media (max-width: 768px) {
-      header { padding: 15px 20px; }
-      nav { display: none; } /* Mobile Menu would go here */
-      h1 { font-size: 2.2em; }
-    }
-  </style>
+      line-height: 1.6;
+
+    }
+
+
+
+    /* NAVBAR CONTAINER */
+
+    header {
+
+      display: flex;
+
+      justify-content: space-between;
+
+      align-items: center;
+
+      background: rgba(10, 12, 16, 0.9);
+
+      padding: 0 40px;
+
+      height: 80px;
+
+      position: fixed;
+
+      top: 0;
+
+      width: 100%;
+
+      z-index: 1000;
+
+      backdrop-filter: blur(12px);
+
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+
+    }
+
+
+
+    .logo {
+
+      font-size: 1.4em;
+
+      font-weight: 700;
+
+      color: #42caff;
+
+      text-decoration: none;
+
+      letter-spacing: 0.5px;
+
+      margin-right: 20px;
+
+    }
+
+
+
+    /* NAVIGATION LINKS */
+
+    nav {
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 25px;
+
+      height: 100%;
+
+    }
+
+
+
+    /* Standard Nav Link */
+
+    nav > a, .dropbtn {
+
+      text-decoration: none;
+
+      color: #b8c2cc;
+
+      font-weight: 500;
+
+      font-size: 0.9em;
+
+      transition: 0.2s;
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 6px;
+
+      height: 80px; /* Full height for hover target */
+
+      cursor: pointer;
+
+    }
+
+
+
+    nav > a:hover, .dropdown:hover .dropbtn {
+
+      color: #42caff;
+
+    }
+
+
+
+    /* DROPDOWN MENU (Mega Menu) */
+
+    .dropdown {
+
+      position: relative;
+
+      height: 100%;
+
+      display: flex;
+
+      align-items: center;
+
+    }
+
+
+
+    .dropdown-content {
+
+      display: none; /* Hidden by default */
+
+      position: absolute;
+
+      top: 80px; /* Pushes it exactly below header */
+
+      left: -100px; /* Adjust centering relative to parent */
+
+      width: 800px; /* Wide mega menu */
+
+      background: rgba(14, 17, 22, 0.98);
+
+      backdrop-filter: blur(20px);
+
+      border: 1px solid rgba(255,255,255,0.08);
+
+      border-top: none;
+
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+
+      border-radius: 0 0 12px 12px;
+
+      padding: 30px;
+
+      grid-template-columns: 1.5fr 1fr;
+
+      gap: 40px;
+
+      animation: fadeIn 0.2s ease-in-out;
+
+    }
+
+
+
+    /* Show dropdown on hover */
+
+    .dropdown:hover .dropdown-content {
+
+      display: grid;
+
+    }
+
+
+
+    @keyframes fadeIn {
+
+      from { opacity: 0; transform: translateY(-10px); }
+
+      to { opacity: 1; transform: translateY(0); }
+
+    }
+
+
+
+    /* Dropdown - Left Column (Description) */
+
+    .mm-desc h3 {
+
+      font-size: 1.1em;
+
+      color: #ffffff;
+
+      margin-bottom: 15px;
+
+      border-bottom: 1px solid rgba(66, 202, 255, 0.3);
+
+      display: inline-block;
+
+      padding-bottom: 5px;
+
+    }
+
+
+
+    .mm-desc p {
+
+      font-size: 0.95em;
+
+      color: #9aa5b1;
+
+      line-height: 1.7;
+
+      margin-bottom: 20px;
+
+    }
+
+
+
+    /* Dropdown - Right Column (Links List) */
+
+    .mm-links {
+
+      display: flex;
+
+      flex-direction: column;
+
+      gap: 12px;
+
+      border-left: 1px solid rgba(255,255,255,0.06);
+
+      padding-left: 30px;
+
+    }
+
+
+
+    .mm-links span {
+
+      font-size: 0.8em;
+
+      text-transform: uppercase;
+
+      letter-spacing: 1px;
+
+      color: #5c6b7f;
+
+      margin-bottom: 5px;
+
+      font-weight: 600;
+
+    }
+
+
+
+    .mm-links a {
+
+      color: #e3e7eb;
+
+      text-decoration: none;
+
+      font-size: 0.95em;
+
+      transition: 0.2s;
+
+      display: block;
+
+    }
+
+
+
+    .mm-links a:hover {
+
+      color: #42caff;
+
+      transform: translateX(5px);
+
+    }
+
+
+
+    /* SPECIAL ELEMENTS */
+
+    
+
+    /* "New" Badge */
+
+    .badge-new {
+
+      font-size: 0.65em;
+
+      background: rgba(66, 202, 255, 0.15);
+
+      color: #42caff;
+
+      border: 1px solid rgba(66, 202, 255, 0.3);
+
+      padding: 2px 6px;
+
+      border-radius: 4px;
+
+      text-transform: uppercase;
+
+      font-weight: 700;
+
+    }
+
+
+
+    /* Navbar Test Button */
+
+    .nav-cta {
+
+      background: #42caff;
+
+      color: #000 !important;
+
+      padding: 10px 20px;
+
+      border-radius: 6px;
+
+      font-weight: 600;
+
+      height: auto; /* Override standard nav height */
+
+      margin-left: 15px;
+
+    }
+
+
+
+    .nav-cta:hover {
+
+      background: #63d7ff;
+
+      color: #000;
+
+    }
+
+
+
+    /* REST OF SITE STYLES */
+
+    .hero {
+
+      padding: 180px 20px 80px;
+
+      max-width: 900px;
+
+      margin: 0 auto;
+
+      text-align: left;
+
+    }
+
+
+
+    h1 { font-size: 2.8em; font-weight: 700; color: #ffffff; margin-bottom: 12px; }
+
+    h2 { font-size: 1.4em; font-weight: 500; color: #42caff; margin-bottom: 25px; }
+
+    p { font-size: 1.1em; color: #cbd5df; margin-bottom: 20px; }
+
+
+
+    .button {
+
+      display: inline-block;
+
+      margin-top: 25px;
+
+      padding: 14px 30px;
+
+      color: white;
+
+      background: #42caff;
+
+      border-radius: 6px;
+
+      text-decoration: none;
+
+      font-weight: 600;
+
+      transition: 0.2s;
+
+    }
+
+    .button:hover { background: #63d7ff; }
+
+    
+
+    section { max-width: 900px; margin: 80px auto; padding: 0 20px; }
+
+    .divider { margin: 40px 0; height: 1px; background: rgba(255,255,255,0.07); }
+
+    footer { margin-top: 120px; text-align: center; font-size: 0.85em; padding-bottom: 40px; color: #7a8590; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 30px; }
+
+
+
+    .arrow { font-size: 0.7em; margin-top: 2px; }
+
+
+
+    @media (max-width: 768px) {
+
+      header { padding: 15px 20px; }
+
+      nav { display: none; } /* Mobile Menu would go here */
+
+      h1 { font-size: 2.2em; }
+
+    }
+
+  </style>
+
 </head>
+
+
 
 <body>
 
-  <header>
-    <a href="#" class="logo">Miyagi X Pulse</a>
-    
-    <nav>
-      <div class="dropdown">
-        <div class="dropbtn">About <span class="arrow">▼</span></div>
-        
-        <div class="dropdown-content">
-          <div class="mm-desc">
-            <h3>What is Miyagi X Pulse?</h3>
-            <p>
-              Miyagi X Pulse, inspired by quantum bio-synchronization, is the world’s most 
-              advanced layer 1 pulse network. A cutting-edge Proof-of-Pulse (PoPP) algorithm 
-              that delivers industry-leading speeds, unbeatable security, and high decentralization.
-            </p>
-          </div>
-          
-          <div class="mm-links">
-            <span>Explore</span>
-            
-            <a href="tokenomics.html">Tokenomics</a>
-            <a href="#">Team</a>
-            
-            <a href="whitepaper.html">Whitepaper</a>
-            
-            <a href="litepaper.html">Litepaper</a>
-            <a href="#">Partners</a>
-            <a href="#">Connect with Us</a>
-          </div>
-        </div>
-      </div>
-      <a href="#keynotes">Keynotes</a>
-      <a href="#ecosystem">Ecosystem</a>
-      <a href="#dev">Developer Hub</a>
-      <a href="#community">Community & News</a>
-      <a href="#miners">Miners</a>
-      <a href="#testnet">Testnet Awakening <span class="badge-new">New</span></a>
-      
-      <a href="#Test" class="nav-cta">Test Now</a>
-    </nav>
-  </header>
 
-  <div class="hero">
-    <h1>Quantum-Grade Blockchain for the Next Digital Era</h1>
-    <h2>Engineered for the Pulse Age</h2>
-    <p>
-      Developed by <strong>Kenjiro Akihito Miyagi</strong>, Miyagi X Pulse introduces a 
-      resilient quantum-class blockchain architecture designed for global-scale connectivity 
-      and next-generation consensus integrity.
-    </p>
-    <p>
-      The network transforms everyday devices into verified pulse nodes, enabling secure, fast, 
-      and decentralized communication infrastructure built for tomorrow’s digital systems.
-    </p>
 
-    <a href="whitepaper.html" class="button">Read Whitepaper</a>
-    
-    <a href="https://x.com/miyagixmix" class="button">Join Community</a>
-  </div>
+  <header>
 
-  <section id="vision">
-    <h2>Our Vision</h2>
-    <p>
-      Miyagi X Pulse envisions a world where blockchain operates with the stability of natural 
-      energy systems. Inspired by bio-synchronization and quantum signal theory, the network is 
-      engineered to create transparent, fair, and self-adjusting digital ecosystems at scale.
-    </p>
-  </section>
+    <a href="#" class="logo">Miyagi X Pulse</a>
 
-  <div class="divider"></div>
+    
 
-  <section id="technology">
-    <h2>Prime Mobile Pulse Node Technology</h2>
-    <p>
-      The Prime Mobile Pulse Node (PMPN) framework enables any modern smartphone to participate 
-      in network validation through the Proof of Pulse & Participation (PoPP) model.
-    </p>
-  </section>
+    <nav>
 
-  <div class="divider"></div>
+      <div class="dropdown">
 
-  <section id="phase">
-    <h2>Current Phase — Genesis Test Network</h2>
-    <p>
-      The Genesis Testing Phase focuses on activation of the global Prime Mobile Pulse Node grid.
-      We are currently onboarding testers to shape governance frameworks.
-    </p>
-    <a href="https://docs.google.com/forms/d/e/1FAIpQLSfotSTNEhPle1lA9V0iKvg2tbqHBAyW4rWzfWbEmpya7Hagxw/viewform?usp=sharing&ouid=104150743439874504554" 
-       class="button">
-       Apply as Tester
-    </a>
-  </section>
+        <div class="dropbtn">About <span class="arrow">▼</span></div>
 
-  <div class="divider"></div>
+        
 
-  <section id="leadership">
-    <h2>Leadership</h2>
-    <p>
-      <strong>Kenjiro Akihito Miyagi</strong> leads the Miyagi X Pulse initiative, guiding its 
-      research, architecture, and global expansion strategy.
-    </p>
-  </section>
+        <div class="dropdown-content">
 
-  <footer>
-    © 2025 Miyagi X Pulse — Quantum Blockchain Network for the Pulse Age
-  </footer>
+          <div class="mm-desc">
+
+            <h3>What is Miyagi X Pulse?</h3>
+
+            <p>
+
+              Miyagi X Pulse, inspired by quantum bio-synchronization, is the world’s most 
+
+              advanced layer 1 pulse network. A cutting-edge Proof-of-Pulse (PoPP) algorithm 
+
+              that delivers industry-leading speeds, unbeatable security, and high decentralization.
+
+            </p>
+
+          </div>
+
+          
+
+          <div class="mm-links">
+
+            <span>Explore</span>
+
+            
+
+            <a href="tokenomics.html">Tokenomics</a>
+
+            <a href="#">Team</a>
+
+            
+
+            <a href="whitepaper.html">Whitepaper</a>
+
+            
+
+            <a href="litepaper.html">Litepaper</a>
+
+            <a href="#">Partners</a>
+
+            <a href="#">Connect with Us</a>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <a href="#keynotes">Keynotes</a>
+
+      <a href="#ecosystem">Ecosystem</a>
+
+      <a href="#dev">Developer Hub</a>
+
+      <a href="#community">Community & News</a>
+
+      <a href="#miners">Miners</a>
+
+      <a href="#testnet">Testnet Awakening <span class="badge-new">New</span></a>
+
+      
+
+      <a href="#Test" class="nav-cta">Test Now</a>
+
+    </nav>
+
+  </header>
+
+
+
+  <div class="hero">
+
+    <h1>Quantum-Grade Blockchain for the Next Digital Era</h1>
+
+    <h2>Engineered for the Pulse Age</h2>
+
+    <p>
+
+      Developed by <strong>Kenjiro Akihito Miyagi</strong>, Miyagi X Pulse introduces a 
+
+      resilient quantum-class blockchain architecture designed for global-scale connectivity 
+
+      and next-generation consensus integrity.
+
+    </p>
+
+    <p>
+
+      The network transforms everyday devices into verified pulse nodes, enabling secure, fast, 
+
+      and decentralized communication infrastructure built for tomorrow’s digital systems.
+
+    </p>
+
+
+
+    <a href="whitepaper.html" class="button">Read Whitepaper</a>
+
+    
+
+    <a href="https://x.com/miyagixmix" class="button">Join Community</a>
+
+  </div>
+
+
+
+  <section id="vision">
+
+    <h2>Our Vision</h2>
+
+    <p>
+
+      Miyagi X Pulse envisions a world where blockchain operates with the stability of natural 
+
+      energy systems. Inspired by bio-synchronization and quantum signal theory, the network is 
+
+      engineered to create transparent, fair, and self-adjusting digital ecosystems at scale.
+
+    </p>
+
+  </section>
+
+
+
+  <div class="divider"></div>
+
+
+
+  <section id="technology">
+
+    <h2>Prime Mobile Pulse Node Technology</h2>
+
+    <p>
+
+      The Prime Mobile Pulse Node (PMPN) framework enables any modern smartphone to participate 
+
+      in network validation through the Proof of Pulse & Participation (PoPP) model.
+
+    </p>
+
+  </section>
+
+
+
+  <div class="divider"></div>
+
+
+
+  <section id="phase">
+
+    <h2>Current Phase — Genesis Test Network</h2>
+
+    <p>
+
+      The Genesis Testing Phase focuses on activation of the global Prime Mobile Pulse Node grid.
+
+      We are currently onboarding testers to shape governance frameworks.
+
+    </p>
+
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSfotSTNEhPle1lA9V0iKvg2tbqHBAyW4rWzfWbEmpya7Hagxw/viewform?usp=sharing&ouid=104150743439874504554" 
+
+       class="button">
+
+       Apply as Tester
+
+    </a>
+
+  </section>
+
+
+
+  <div class="divider"></div>
+
+
+
+  <section id="leadership">
+
+    <h2>Leadership</h2>
+
+    <p>
+
+      <strong>Kenjiro Akihito Miyagi</strong> leads the Miyagi X Pulse initiative, guiding its 
+
+      research, architecture, and global expansion strategy.
+
+    </p>
+
+  </section>
+
+
+
+  <footer>
+
+    © 2025 Miyagi X Pulse — Quantum Blockchain Network for the Pulse Age
+
+  </footer>
+
+
 
 </body>
+
 </html>
