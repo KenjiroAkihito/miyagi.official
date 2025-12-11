@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Miyagi X Pulse | Official Litepaper</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    /* --- CORE THEME (Matching Whitepaper Design) --- */
+    * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #000;
+      color: #e3e7eb;
+      line-height: 1.7;
+      background-image: linear-gradient(rgba(0,0,0,0.9), #000), url("assets/background.jpg");
+      background-repeat: no-repeat;
+      background-size: 100% 600px;
+      padding-top: 80px; /* Space for the fixed header */
+    }
+
+    /* --- NAVBAR --- (Simplified for Litepaper context) */
+    header {
+      display: flex; justify-content: space-between; align-items: center;
+      background: rgba(10, 12, 16, 0.95); padding: 0 40px; height: 80px;
+      position: fixed; top: 0; width: 100%; z-index: 1000;
+      backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .logo {
+      font-size: 1.4em; font-weight: 700; color: #42caff; text-decoration: none;
+      letter-spacing: 0.5px;
+    }
+    
+    .nav-links a {
+      color: #b8c2cc; text-decoration: none; font-weight: 500; font-size: 0.9em;
+      margin-left: 25px; transition: 0.2s;
+    }
+    .nav-links a:hover { color: #42caff; }
+
+    /* --- PAGE LAYOUT --- */
+    .container {
+      max-width: 900px;
+      margin: 40px auto 80px;
+      padding: 0 20px;
+    }
+
+    /* --- HEADERS --- */
+    h1 { 
+      font-size: 2.8em; font-weight: 700; color: #fff; margin-bottom: 10px; 
+      border-bottom: 2px solid #42caff; padding-bottom: 10px;
+    }
+    .subtitle { color: #42caff; font-size: 1.2em; margin-bottom: 40px; display: block; }
+    
+    h2 { 
+      font-size: 1.8em; color: #fff; margin-top: 50px; margin-bottom: 20px; 
+      padding-left: 10px; border-left: 4px solid #42caff;
+    }
+    
+    h3 { font-size: 1.2em; color: #b8c2cc; margin-top: 25px; margin-bottom: 15px; }
+
+    /* --- CONTENT STYLES --- */
+    p { margin-bottom: 20px; color: #cbd5df; }
+    ul { margin-bottom: 20px; padding-left: 25px; color: #cbd5df; }
+    li { margin-bottom: 8px; }
+
+    strong { color: #fff; }
+
+    /* Callout Box / Emphasis */
+    .callout {
+        background: rgba(66, 202, 255, 0.1);
+        border-left: 3px solid #42caff;
+        padding: 15px;
+        margin: 25px 0;
+        font-style: italic;
+        color: #aebbc9;
+    }
+
+    /* Roadmap/List Formatting */
+    .roadmap ol {
+        list-style-type: none;
+        counter-reset: road-step;
+        padding-left: 0;
+    }
+    .roadmap li {
+        counter-increment: road-step;
+        margin-bottom: 15px;
+        padding-left: 40px;
+        position: relative;
+        color: #cbd5df;
+    }
+    .roadmap li::before {
+        content: counter(road-step);
+        position: absolute;
+        left: 0;
+        top: 0;
+        background: #42caff;
+        color: #000;
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 25px;
+        font-weight: 700;
+        font-size: 0.9em;
+    }
+
+    /* Image Placeholder */
+    .image-placeholder {
+        background: rgba(66, 202, 255, 0.15);
+        border: 1px solid rgba(66, 202, 255, 0.5);
+        padding: 15px;
+        margin: 25px auto;
+        text-align: center;
+        color: #42caff;
+        font-family: monospace;
+        font-size: 0.8em;
+        border-radius: 6px;
+    }
+
+    footer { 
+      text-align: center; font-size: 0.85em; padding: 40px 0; color: #7a8590; 
+      border-top: 1px solid rgba(255,255,255,0.05); margin-top: 80px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <a href="index.html" class="logo">Miyagi X Pulse</a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="whitepaper.html">Whitepaper</a>
+    </div>
+  </header>
+
+  <div class="container">
+    
+    <h1>MIYAGI X PULSE (MIX)</h1>
+    <span class="subtitle">Quantum-Enhanced Mobile Pulse Network — LITEPAPER v1.0</span>
+
+    <section id="section-1">
+      <h2>1. Introduction</h2>
+      <p>Miyagi X Pulse (MIX) is a next-generation decentralized network designed to transform everyday mobile devices into secure micro-nodes. By combining lightweight **“pulse mining,”** hierarchical aggregation, and optional quantum-secure anchoring, MIX delivers a high-efficiency blockchain alternative without requiring heavy hardware, expensive staking, or complicated onboarding.</p>
+      
+      <h3>Mission:</h3>
+      <p>Make global decentralized infrastructure accessible to anyone—using only a mobile device—while maintaining institutional-grade security and long-term economic sustainability.</p>
+    </section>
+
+    <section id="section-2">
+      <h2>2. What Is Pulse Mining?</h2>
+      <p>Pulse mining is a low-energy, mobile-friendly mechanism where each device periodically emits a cryptographically signed **“pulse.”** This pulse serves as a proof of activity and device presence.</p>
+      
+      <div class="callout">
+        <h3>Each pulse contributes to:</h3>
+        <ul>
+          <li>Network activity verification</li>
+          <li>Decentralization strength (PoPP)</li>
+          <li>User rewards</li>
+        </ul>
+      </div>
+
+      <p>Unlike traditional mining, Pulse Mining requires: No GPU/ASIC, No high battery drain, and No large bandwidth usage. This makes MIX a **universal, inclusive, and globally scalable** network.</p>
+    </section>
+
+    <section id="section-3">
+      <h2>3. Hybrid Pulse Architecture</h2>
+      <p>MIX operates through a three-layer hybrid model, ensuring both rapid scalability and external security guarantees.</p>
+      
+      <h3>1. Pulse Layer (Mobile)</h3>
+      <p>Millions of mobile devices generate pulses every few seconds. Each pulse is: Lightweight, Signed, and Tamper-resistant.</p>
+      
+      <h3>2. Node & Aggregation Layer</h3>
+      <p>Regional nodes (Leaders & Clusters) collect pulses, compress them via Merkle Trees, and form verifiable Pulse Blocks, drastically reducing the data overhead required for finality.</p> 
+
+      <h3>3. Anchor Layer</h3>
+      <p>Finalized blocks are periodically **anchored to a major L1 blockchain** for immutable finality. This hybrid model gives MIX both Speed & scalability (from its own network) and Security (from anchoring to major chains).</p>
+    </section>
+
+    <section id="section-4">
+      <h2>4. Why Quantum-Ready?</h2>
+      <p>MIX prepares for a world where quantum computers may break classical cryptography. We are proactively implementing cryptographic resilience now to ensure long-term security.</p>
+      
+      <div class="callout">
+        <h3>The network integrates:</h3>
+        <ul>
+          <li>**Quantum-safe signature schemes** (e.g., Dilithium).</li>
+          <li>Randomness reinforced with quantum-inspired entropy.</li>
+          <li>Optional QPU-accelerated verification for future hardware.</li>
+        </ul>
+      </div>
+      <p>This ensures MIX remains secure for the next decade and beyond, protecting user assets from future theoretical threats.</p>
+    </section>
+
+    <section id="section-5">
+      <h2>5. Token Utility — MIX Token</h2>
+      <p>Total Supply: **1,000,000,000 MIX**</p>
+      <p>MIX is the core asset powering the Miyagi X Pulse ecosystem.</p>
+      
+      <h3>Utility</h3>
+      <ul>
+        <li>Rewards for pulse mining (45% of total supply allocated here).</li>
+        <li>Staking for validator participation (CL/CORE nodes).</li>
+        <li>Network fees (gas).</li>
+        <li>Governance voting.</li>
+        <li>Access to advanced MIX services & apps.</li>
+      </ul>
+      
+      <h3>Monetary Policy</h3>
+      <p>The supply follows a mathematically bounded, **declining emission curve** to ensure: Sustainability, Long-term scarcity, and Fair distribution aligned with the network's growth and operational needs.</p> 
+    </section>
+
+    <section id="section-6">
+      <h2>6. Earn: Pulse Rewards</h2>
+      <p>Users earn MIX by keeping the app active and sending regular pulses, contributing verifiable activity proofs (Proof of Pulse & Participation or PoPP).</p>
+      
+      <h3>Reward factors include:</h3>
+      <ul>
+        <li>Device reliability & Continuous uptime.</li>
+        <li>Geographic region weight (to encourage decentralization).</li>
+        <li>Anti-cheat verification (honesty score).</li>
+      </ul>
+      <p>Pulse mining is designed to be: **Fair, Anti-bot, Anti-Sybil, and Accessible** to all users globally.</p> 
+    </section>
+    
+    <section id="section-7">
+      <h2>7. Security Model</h2>
+      <p>MIX prioritizes safety through redundancy and multi-layered cryptographic checks:</p>
+      <ul>
+        <li>✓ **Quantum-safe signatures** for long-term security.</li>
+        <li>✓ **Sybil-resistant device identification** via hardware attestation.</li>
+        <li>✓ **Checkpoint anchoring to L1** providing finality and contestation windows.</li>
+        <li>✓ Multi-node aggregation & redundancy (LD, CL, CORE).</li>
+        <li>✓ Tamper-evident **Merkle commitments** for every Pulse Block.</li>
+      </ul>
+      <p>The system reduces the attack surface while ensuring integrity, even in high-growth, high-volume environments.</p>
+    </section>
+    
+    <section id="section-8">
+      <h2>8. Governance</h2>
+      <p>MIX uses a hybrid governance framework to balance democratic input with operational security requirements:</p>
+      <ul>
+        <li>**Token-Based Voting:** Community votes on major protocol changes and economic parameters.</li>
+        <li>**Validator Quorum:** CL and CORE nodes approve upgrades and validate security checkpoints.</li>
+        <li>**Emergency Committee:** A small, time-locked multisig committee is reserved for mitigating critical protocol breaches or major network attacks.</li>
+      </ul>
+    </section>
+    
+    <section id="section-9" class="roadmap">
+      <h2>9. Roadmap</h2>
+      <ol>
+        <li>
+          <strong>Phase 1 — Prototype (0–3 Months):</strong> Core Pulse engine, basic reward model, and initial node aggregation software.
+        </li>
+        <li>
+          <strong>Phase 2 — Testnet Alpha (3–9 Months):</strong> Full Pulse → Block pipeline, reliability scoring system, early wallet integration, and internal audits.
+        </li>
+        <li>
+          <strong>Phase 3 — Testnet Beta (9–15 Months):</strong> Global mobile scaling tests (10k+ users), functional L1 anchoring implementation, and external security review.
+        </li>
+        <li>
+          <strong>Phase 4 — Mainnet (15–24 Months):</strong> Launch of MIX token, activation of the full validator staking program, and full reward system activation.
+        </li>
+        <li>
+          <strong>Phase 5 — Ecosystem Expansion (24–60 Months):</strong> Integration of MIX identity into third-party apps, launch of AI + mobile compute modules, and full quantum-ready cryptography upgrades.
+        </li>
+      </ol>
+    </section>
+    
+    <section id="section-10">
+      <h2>10. Vision</h2>
+      <p>Miyagi X Pulse aims to become a global decentralized fabric where:</p>
+      <ul>
+        <li>Phones act as micro-validators.</li>
+        <li>Users earn fairly.</li>
+        <li>Networks scale without environmental waste.</li>
+        <li>Security evolves for a quantum future.</li>
+      </ul>
+      <p>Our goal is a world where decentralization is not limited to the wealthy or technically skilled — but available to anyone with a mobile device.</p>
+    </section>
+
+  </div>
+
+  <footer>
+    © 2025 Miyagi X Pulse — Quantum-Enhanced Mobile Network
+  </footer>
+
+</body>
+</html>
